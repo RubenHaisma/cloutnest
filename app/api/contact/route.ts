@@ -1,40 +1,18 @@
-import { NextResponse } from "next/server";
-import { Resend } from "resend";
+import { NextResponse } from 'next/server';
+import { sendMail } from '@/lib/mail';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
-export async function POST(req: Request) {
-   <boltAction type="file" filePath="app/api/contact/route.ts">import { NextResponse } from "next/server";
-import { Resend } from "resend";
-
-const resend = new Resend(process.env.RESEND_API_KEY);
-
-export async function POST(req: Request) {
+export async function POST(request: Request) {
   try {
-    const { name, email, subject, message } = await req.json();
+    const body = await request.json();
+    const { name, email, phone, message } = body;
 
-    await resend.emails.send({
-      from: "CloutNest <contact@cloutnest.com>",
-      to: "support@cloutnest.com",
-      subject: `Contact Form: ${subject}`,
-      html: `
-        <h2>New Contact Form Submission</h2>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Subject:</strong> ${subject}</p>
-        <p><strong>Message:</strong></p>
-        <p>${message}</p>
-      `,
-    });
+    await sendMail({ name, email, phone, message });
 
-    return NextResponse.json(
-      { message: "Message sent successfully" },
-      { status: 200 }
-    );
+    return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Error sending message:", error);
+    console.error('Contact form error:', error);
     return NextResponse.json(
-      { error: "Failed to send message" },
+      { error: 'Er is iets misgegaan. Probeer het later opnieuw.' },
       { status: 500 }
     );
   }

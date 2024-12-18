@@ -6,6 +6,8 @@ import { Toaster } from "@/components/ui/toaster";
 import Navbar from '@/components/navbar';
 import Footer from '@/components/footer';
 import { SessionProvider } from '@/components/session-provider';
+import { GoogleAnalytics } from '@/components/analytics/GoogleAnalytics';
+
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -117,6 +119,9 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" />
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+        <GoogleAnalytics />
       </head>
       <body className={inter.className}>
         <SessionProvider>
@@ -127,9 +132,7 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <div className="flex min-h-screen flex-col">
-              <Navbar />
               <main className="flex-1">{children}</main>
-              <Footer />
             </div>
             <Toaster />
           </ThemeProvider>
