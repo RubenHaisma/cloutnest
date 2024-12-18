@@ -1,6 +1,10 @@
-import { clsx, type ClassValue } from 'clsx';
-import { twMerge } from 'tailwind-merge';
+export function getWindow(): Window & typeof globalThis {
+  if (typeof window === 'undefined') {
+    throw new Error('Window is not defined')
+  }
+  return window
+}
 
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
+export function cn(...inputs: (string | undefined)[]) {
+  return inputs.filter(Boolean).join(' ')
 }

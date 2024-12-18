@@ -1,74 +1,63 @@
 import './globals.css';
 import type { Metadata } from 'next';
+import Script from 'next/script';
+import { Analytics } from '@vercel/analytics/react';
 import { Inter } from 'next/font/google';
-import { ThemeProvider } from "@/components/theme-provider";
-import { Toaster } from "@/components/ui/toaster";
-import Navbar from '@/components/navbar';
-import Footer from '@/components/footer';
-import { SessionProvider } from '@/components/session-provider';
-import { GoogleAnalytics } from '@/components/analytics/GoogleAnalytics';
-
+import { ThemeProvider } from '@/components/theme-provider';
+import { Toaster } from '@/components/ui/toaster';
+import { AuthProvider } from '@/components/auth-provider';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'CloutNest - #1 Platform for Brands & Content Creators',
-  description:
-    'CloutNest is the ultimate platform connecting brands with content creators to create impactful, ROI-driven social media campaigns. Join the revolution in influencer marketing.',
-  keywords: [
-    'CloutNest',
-    'connect brands with influencers',
-    'content creators',
-    'influencer marketing',
-    'social media marketing',
-    'brand collaborations',
-    'influencer campaigns',
-    'creator platforms',
-    'micro-influencers',
-    'ROI-driven marketing',
-  ].join(', '),
+  title: {
+    default: 'CloutNest - Empowering Influencers and Brands',
+    template: '%s | CloutNest',
+  },
+  description: 'CloutNest connects influencers with brands to create impactful collaborations. Discover opportunities, build partnerships, and grow your influence with our powerful matching platform.',
+  metadataBase: new URL('https://cloutnest.com'),
   openGraph: {
-    title: 'CloutNest - Connect Brands with Content Creators',
-    description:
-      'Discover CloutNest: the #1 platform connecting brands with content creators and influencers. Collaborate, create, and amplify your social media presence today.',
+    type: 'website',
+    locale: 'en_US',
     url: 'https://cloutnest.com',
     siteName: 'CloutNest',
     images: [
       {
-        url: 'https://cloutnest.com/images/og-image.jpg',
+        url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'CloutNest - Connect Brands with Content Creators',
+        alt: 'CloutNest - Connect Brands and Influencers',
       },
     ],
-    locale: 'en_US',
-    type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
     site: '@cloutnest',
-    title: 'CloutNest - #1 Platform for Brands & Content Creators',
-    description:
-      'Join CloutNest: the top influencer marketing platform for connecting brands with content creators. Create impactful campaigns that drive real results.',
-    images: ['https://cloutnest.com/images/og-image.jpg'],
+    creator: '@cloutnest',
   },
   icons: {
     icon: '/favicon.ico',
     apple: '/apple-touch-icon.png',
   },
+  alternates: {
+    canonical: 'https://cloutnest.com',
+  },
+  keywords: [
+    'influencer marketing',
+    'brand collaborations',
+    'influencers',
+    'marketing platform',
+    'CloutNest',
+    'influencer partnerships',
+    'sponsored content',
+  ],
   robots: {
     index: true,
     follow: true,
-    'max-snippet': -1,
-    'max-image-preview': 'large',
-    'max-video-preview': -1,
-  },
-  alternates: {
-    canonical: 'https://cloutnest.com',
-    languages: {
-      en: 'https://cloutnest.com/en',
-      es: 'https://cloutnest.com/es',
-    },
+    nocache: false,
+    "max-snippet": -1,
+    "max-image-preview": 'large',
+    "max-video-preview": -1,
   },
 };
 
@@ -80,63 +69,59 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* Core SEO Meta Tags */}
-        <meta
-          name="keywords"
-          content="CloutNest, connect brands with influencers, influencer marketing, social media campaigns, micro-influencers, ROI marketing, content creator platform, brand collaborations"
+        {/* Google Analytics */}
+        <Script
+          strategy="afterInteractive"
+          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
         />
-        <meta
-          name="description"
-          content="CloutNest is the ultimate platform for connecting brands with influencers and content creators to craft impactful social media marketing campaigns."
+        <Script
+          id="google-analytics"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}');
+            `,
+          }}
         />
-        <meta name="author" content="CloutNest Team" />
-        <meta name="theme-color" content="#4F46E5" />
-        <link rel="manifest" href="/site.webmanifest" />
 
-        {/* Schema.org Structured Data */}
-        <script type="application/ld+json">
-          {JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'WebSite',
-            name: 'CloutNest',
-            url: 'https://cloutnest.com',
-            description:
-              'CloutNest connects brands with content creators and influencers to create impactful, ROI-focused social media campaigns.',
-            publisher: {
-              '@type': 'Organization',
-              name: 'CloutNest',
-              logo: 'https://cloutnest.com/images/logo.png',
-            },
-            potentialAction: {
-              '@type': 'SearchAction',
-              target: 'https://cloutnest.com/?q={search_term_string}',
-              'query-input': 'required name=search_term_string',
-            },
-          })}
-        </script>
-
-        {/* Preloading Fonts */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" />
-        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-        <GoogleAnalytics />
+        {/* Structured Data for SEO */}
+        <Script
+          id="structured-data"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "CloutNest",
+              url: "https://cloutnest.com",
+              logo: "https://cloutnest.com/logo.png",
+              description:
+                "CloutNest connects influencers and brands for impactful collaborations.",
+              sameAs: [
+                "https://twitter.com/cloutnest",
+                "https://www.linkedin.com/company/cloutnest",
+                "https://www.instagram.com/cloutnest",
+              ],
+            }),
+          }}
+        />
       </head>
-      <body className={inter.className}>
-        <SessionProvider>
+      <body className={`${inter.className} min-h-screen flex flex-col`}>
+        <AuthProvider>
           <ThemeProvider
             attribute="class"
-            defaultTheme="system"
+            defaultTheme="dark"
             enableSystem
             disableTransitionOnChange
           >
-            <div className="flex min-h-screen flex-col">
-              <main className="flex-1">{children}</main>
-            </div>
+            {children}
             <Toaster />
           </ThemeProvider>
-        </SessionProvider>
+        </AuthProvider>
+        <Analytics />
       </body>
     </html>
   );

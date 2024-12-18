@@ -1,86 +1,90 @@
-export default function PrivacyPage() {
+import { Card } from "@/components/ui/card"
+import { Header } from "@/components/layout/header"
+import { Footer } from "@/components/layout/footer"
+
+export const metadata = {
+  title: "Privacy Policy - PlaylistPro",
+  description: "Privacy policy and data protection information for PlaylistPro users",
+}
+
+export default function PrivacyPolicyPage() {
   return (
-    <div className="py-20 px-4">
-      <div className="max-w-4xl mx-auto prose dark:prose-invert">
-        <h1>Privacy Policy</h1>
-        <p className="lead">
-          Last updated: August 2023
-        </p>
+    <div className="flex min-h-screen flex-col">
+      <Header />
+      
+      <main className="flex-1 container mx-auto px-4 py-8 max-w-4xl">
+        <Card className="p-8">
+          <h1 className="text-3xl font-bold mb-8">Privacy Policy</h1>
+          
+          <div className="prose dark:prose-invert max-w-none">
+            <p className="text-muted-foreground mb-4">Last updated: {new Date().toLocaleDateString()}</p>
 
-        <h2>1. Introduction</h2>
-        <p>
-          CloutNest ("we", "our", or "us") respects your privacy and is committed 
-          to protecting your personal data. This privacy policy explains how we 
-          collect, use, and protect your information when you use our platform.
-        </p>
+            <section className="mb-8">
+              <h2 className="text-2xl font-semibold mb-4">1. Introduction</h2>
+              <p>
+                PlaylistPro (&quot;we&quot;, &quot;our&quot;, or &quot;us&quot;) respects your privacy and is committed to protecting your personal data.
+                This privacy policy explains how we collect, use, and protect your information when you use our platform.
+              </p>
+            </section>
 
-        <h2>2. Information We Collect</h2>
-        <h3>2.1 Personal Information</h3>
-        <p>We collect information that you provide directly to us, including:</p>
-        <ul>
-          <li>Name and contact information</li>
-          <li>Account credentials</li>
-          <li>Payment information</li>
-          <li>Social media handles and metrics</li>
-          <li>Communication preferences</li>
-        </ul>
+            <section className="mb-8">
+              <h2 className="text-2xl font-semibold mb-4">2. Information We Collect</h2>
+              <p className="mb-4">We collect the following types of information:</p>
+              <ul className="list-disc pl-6 mb-4">
+                <li>Account information (name, email, profile picture)</li>
+                <li>Spotify account data and playlist information</li>
+                <li>Payment and transaction details</li>
+                <li>Usage data and analytics</li>
+                <li>Communication preferences</li>
+              </ul>
+            </section>
 
-        <h3>2.2 Automatically Collected Information</h3>
-        <p>We automatically collect certain information when you use our platform:</p>
-        <ul>
-          <li>Device information</li>
-          <li>Usage data</li>
-          <li>IP address</li>
-          <li>Browser type</li>
-          <li>Cookies and similar technologies</li>
-        </ul>
+            <section className="mb-8">
+              <h2 className="text-2xl font-semibold mb-4">3. How We Use Your Information</h2>
+              <p className="mb-4">We use your information to:</p>
+              <ul className="list-disc pl-6 mb-4">
+                <li>Provide and improve our services</li>
+                <li>Process payments and transfers</li>
+                <li>Match artists with suitable playlists</li>
+                <li>Send important updates and notifications</li>
+                <li>Analyze platform performance and usage patterns</li>
+              </ul>
+            </section>
 
-        <h2>3. How We Use Your Information</h2>
-        <p>We use your information to:</p>
-        <ul>
-          <li>Provide and improve our services</li>
-          <li>Process payments</li>
-          <li>Communicate with you</li>
-          <li>Analyze platform usage</li>
-          <li>Prevent fraud</li>
-        </ul>
+            <section className="mb-8">
+              <h2 className="text-2xl font-semibold mb-4">4. Data Protection</h2>
+              <p>
+                We implement appropriate technical and organizational measures to protect your personal data against
+                unauthorized access, alteration, disclosure, or destruction.
+              </p>
+            </section>
 
-        <h2>4. Information Sharing</h2>
-        <p>
-          We do not sell your personal information. We may share your information with:
-        </p>
-        <ul>
-          <li>Service providers</li>
-          <li>Business partners</li>
-          <li>Legal authorities when required</li>
-        </ul>
+            <section className="mb-8">
+              <h2 className="text-2xl font-semibold mb-4">5. Your Rights</h2>
+              <p className="mb-4">You have the right to:</p>
+              <ul className="list-disc pl-6 mb-4">
+                <li>Access your personal data</li>
+                <li>Correct inaccurate data</li>
+                <li>Request deletion of your data</li>
+                <li>Object to data processing</li>
+                <li>Data portability</li>
+              </ul>
+            </section>
 
-        <h2>5. Your Rights</h2>
-        <p>You have the right to:</p>
-        <ul>
-          <li>Access your personal information</li>
-          <li>Correct inaccurate data</li>
-          <li>Request deletion of your data</li>
-          <li>Object to processing</li>
-          <li>Data portability</li>
-        </ul>
+            <section className="mb-8">
+              <h2 className="text-2xl font-semibold mb-4">6. Contact Us</h2>
+              <p>
+                If you have any questions about this privacy policy or our data practices, please contact us at{" "}
+                <a href="mailto:privacy@playlistpro.com" className="text-cyan-500 hover:underline">
+                  contact@playlistpro.io
+                </a>
+              </p>
+            </section>
+          </div>
+        </Card>
+      </main>
 
-        <h2>6. Security</h2>
-        <p>
-          We implement appropriate technical and organizational measures to protect 
-          your personal information against unauthorized access, alteration, 
-          disclosure, or destruction.
-        </p>
-
-        <h2>7. Contact Us</h2>
-        <p>
-          If you have any questions about this Privacy Policy, please contact us at:
-        </p>
-        <ul>
-          <li>Email: privacy@cloutnest.com</li>
-          <li>Address: 123 Privacy Street, New York, NY 10001</li>
-        </ul>
-      </div>
+      <Footer />
     </div>
-  );
+  )
 }

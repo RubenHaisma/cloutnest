@@ -1,0 +1,45 @@
+.blogContent img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    margin: 2rem auto; /* centered */
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    display: block; /* helps with centering */
+    width: 600px; /* or whatever size you prefer */
+}
+
+/* Make sure it's responsive */
+@media (max-width: 640px) {
+    .blogContent img {
+        width: 100%;
+    }
+}
+
+.blogContent h1 {
+    font-size: 2.5em;
+    font-weight: bold;
+    color: white;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+  }
+  
+  .blogContent h2 {
+    font-size: 2em;
+    font-weight: bold;
+    color: white;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+  }
+  
+  .blogContent h3 {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: white;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+  }
+  
+  .blogContent p {
+    margin-bottom: 1em;
+    color: white;
+  }
