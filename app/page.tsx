@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import ContactForm from "@/components/contact/ContactForm";
 
-export default function UnderDevelopment() {
+export default function Home() {
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
     hours: 0,
