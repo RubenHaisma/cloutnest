@@ -1,71 +1,69 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { useSession } from "next-auth/react"
-import { cn } from "@/lib/utils"
-import { LogoutButton } from "@/components/auth/logout-button"
-import {
-  BarChart3,
-  DollarSign,
-  Music,
-  PlayCircle,
-  Settings,
-} from "lucide-react"
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { cn } from "@/lib/utils";
+import { LogoutButton } from "@/components/auth/logout-button";
+import { BarChart3, DollarSign, Users, Briefcase, Settings } from "lucide-react";
 
 export function Sidebar() {
-  const pathname = usePathname()
-  const { data: session } = useSession()
+  const pathname = usePathname();
+  const { data: session } = useSession();
 
-  const routes = session?.user?.role === "artist" 
-    ? [
-        {
-          title: "Dashboard",
-          icon: BarChart3,
-          href: "/dashboard/artist",
-        },
-        {
-          title: "Submit Track",
-          icon: Music,
-          href: "/dashboard/submit",
-        },
-        {
-          title: "Analytics",
-          icon: BarChart3,
-          href: "/dashboard/analytics",
-        },
-      ]
-    : [
-        {
-          title: "Dashboard",
-          icon: BarChart3,
-          href: "/dashboard/curator",
-        },
-        {
-          title: "Review Tracks",
-          icon: Music,
-          href: "/dashboard/curator/tracks",
-        },
-        {
-          title: "Playlists",
-          icon: PlayCircle,
-          href: "/dashboard/curator/playlists",
-        },
-        {
-          title: "Earnings",
-          icon: DollarSign,
-          href: "/dashboard/curator/earnings",
-        },
-      ]
+  const routes =
+    session?.user?.role === "influencer"
+      ? [
+          {
+            title: "Dashboard",
+            icon: BarChart3,
+            href: "/dashboard/influencer",
+          },
+          {
+            title: "Opportunities",
+            icon: Briefcase,
+            href: "/dashboard/influencer/opportunities",
+          },
+          {
+            title: "Analytics",
+            icon: BarChart3,
+            href: "/dashboard/influencer/analytics",
+          },
+        ]
+      : [
+          {
+            title: "Dashboard",
+            icon: BarChart3,
+            href: "/dashboard/business",
+          },
+          {
+            title: "Find Influencers",
+            icon: Users,
+            href: "/dashboard/business/influencers",
+          },
+          {
+            title: "Campaigns",
+            icon: Briefcase,
+            href: "/dashboard/business/campaigns",
+          },
+          {
+            title: "Earnings",
+            icon: DollarSign,
+            href: "/dashboard/business/earnings",
+          },
+        ];
 
   return (
     <div className="flex h-screen w-64 flex-col border-r bg-background">
+      {/* Logo Section */}
       <div className="flex h-16 items-center border-b px-6">
         <Link href="/" className="flex items-center space-x-2">
-          <PlayCircle className="h-6 w-6 text-cyan-500" />
-          <span className="text-xl font-bold">PlaylistPro</span>
+          <Briefcase className="h-6 w-6 text-emerald-500" />
+          <span className="text-xl font-bold">CloutNest</span>
         </Link>
       </div>
+
+      {/* Navigation Links */}
       <div className="flex-1 space-y-1 overflow-y-auto p-2">
         {routes.map((route) => (
           <Link
@@ -83,6 +81,8 @@ export function Sidebar() {
           </Link>
         ))}
       </div>
+
+      {/* Settings and Logout */}
       <div className="border-t p-4 space-y-2">
         <Link
           href="/dashboard/settings"
@@ -99,5 +99,5 @@ export function Sidebar() {
         <LogoutButton className="w-full justify-start text-sm font-medium" />
       </div>
     </div>
-  )
+  );
 }

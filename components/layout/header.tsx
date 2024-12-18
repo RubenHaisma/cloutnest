@@ -1,37 +1,37 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { PlayCircle, Menu, X } from "lucide-react"
-import { ThemeToggle } from "@/components/theme-toggle"
-import { useSession } from "next-auth/react"
-import { LogoutButton } from "@/components/auth/logout-button"
-import { useState } from "react"
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Globe, Menu, X } from "lucide-react";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { useSession } from "next-auth/react";
+import { LogoutButton } from "@/components/auth/logout-button";
+import { useState } from "react";
 
 export function Header() {
-  const { data: session } = useSession()
-  const [isMobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const { data: session } = useSession();
+  const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const toggleMobileMenu = () => setMobileMenuOpen(!isMobileMenuOpen)
+  const toggleMobileMenu = () => setMobileMenuOpen(!isMobileMenuOpen);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 lg:px-6">
         {/* Logo */}
         <Link href="/" className="flex items-center space-x-2">
-          <PlayCircle className="h-6 w-6 text-cyan-500" />
-          <span className="text-xl font-bold">PlaylistPro</span>
+          <Globe className="h-6 w-6 text-emerald-500" />
+          <span className="text-xl font-bold">CloutNest</span>
         </Link>
 
         {/* Theme Toggle */}
         <div className="flex items-center lg:hidden ml-auto">
-        <ThemeToggle />
+          <ThemeToggle />
         </div>
 
         {/* Desktop Navigation */}
         <nav className="hidden lg:flex items-center space-x-4">
           <Link href="/how-it-works">
-            <Button variant="ghost">How it works</Button>
+            <Button variant="ghost">How It Works</Button>
           </Link>
           <Link href="/blog">
             <Button variant="ghost">Blog</Button>
@@ -43,17 +43,17 @@ export function Header() {
           {session ? (
             <>
               <Link href="/dashboard">
-                <Button className="bg-cyan-500 hover:bg-cyan-600">Dashboard</Button>
+                <Button className="bg-emerald-500 hover:bg-emerald-600">Dashboard</Button>
               </Link>
               <LogoutButton />
             </>
           ) : (
             <>
               <Link href="/login">
-                <Button variant="ghost">Log in</Button>
+                <Button variant="ghost">Log In</Button>
               </Link>
               <Link href="/signup">
-                <Button className="bg-cyan-500 hover:bg-cyan-600">Sign up</Button>
+                <Button className="bg-emerald-500 hover:bg-emerald-600">Sign Up</Button>
               </Link>
             </>
           )}
@@ -74,7 +74,7 @@ export function Header() {
           <nav className="flex flex-col space-y-2 p-4">
             <Link href="/how-it-works" onClick={toggleMobileMenu}>
               <Button variant="ghost" className="w-full text-left">
-                How it works
+                How It Works
               </Button>
             </Link>
             <Link href="/blog" onClick={toggleMobileMenu}>
@@ -90,7 +90,7 @@ export function Header() {
             {session ? (
               <>
                 <Link href="/dashboard" onClick={toggleMobileMenu}>
-                  <Button className="bg-cyan-500 hover:bg-cyan-600 w-full text-left">
+                  <Button className="bg-emerald-500 hover:bg-emerald-600 w-full text-left">
                     Dashboard
                   </Button>
                 </Link>
@@ -100,12 +100,12 @@ export function Header() {
               <>
                 <Link href="/login" onClick={toggleMobileMenu}>
                   <Button variant="ghost" className="w-full text-left">
-                    Log in
+                    Log In
                   </Button>
                 </Link>
                 <Link href="/signup" onClick={toggleMobileMenu}>
-                  <Button className="bg-cyan-500 hover:bg-cyan-600 w-full text-left">
-                    Sign up
+                  <Button className="bg-emerald-500 hover:bg-emerald-600 w-full text-left">
+                    Sign Up
                   </Button>
                 </Link>
               </>
@@ -114,5 +114,5 @@ export function Header() {
         </div>
       )}
     </header>
-  )
+  );
 }

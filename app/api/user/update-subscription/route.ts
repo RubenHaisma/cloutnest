@@ -9,7 +9,7 @@ if (!process.env.STRIPE_SECRET_KEY) {
   throw new Error("Missing STRIPE_SECRET_KEY");
 }
 
-if (!process.env.STRIPE_PRO_PRICE_ID) {
+if (!process.env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID) {
   throw new Error("Missing STRIPE_PRO_PRICE_ID");
 }
 

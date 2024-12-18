@@ -2,15 +2,51 @@
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Check, PlayCircle } from "lucide-react";
+import { Check, Star, Users } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { STRIPE_PLANS } from "@/lib/stripe/config";
 import { useToast } from "@/hooks/use-toast";
 import Link from "next/link";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { loadStripe } from "@stripe/stripe-js";
+
+// Smart Pricing System
+const CLOUTNEST_PLANS = {
+  basic: {
+    id: "plan_basic",
+    name: "Basic",
+    price: 19,
+    features: [
+      "Profile listing in the CloutNest directory",
+      "Access to basic analytics",
+      "2 connections per month",
+    ],
+  },
+  pro: {
+    id: "plan_pro",
+    name: "Pro",
+    price: 49,
+    features: [
+      "Enhanced visibility in the directory",
+      "Unlimited connections per month",
+      "Detailed analytics & insights",
+      "Dedicated support for campaigns",
+    ],
+  },
+  premium: {
+    id: "plan_premium",
+    name: "Premium",
+    price: 99,
+    features: [
+      "Priority visibility for your profile",
+      "Unlimited connections and collaborations",
+      "Advanced campaign management tools",
+      "Exclusive access to premium brands/influencers",
+      "Personal account manager",
+    ],
+  },
+};
 
 export default function PricingPage() {
   const { data: session } = useSession();
@@ -18,48 +54,38 @@ export default function PricingPage() {
   const { toast } = useToast();
 
   const handleSubscribe = async (priceId: string) => {
-    console.log("Selected priceId for subscription:", priceId);
-  
     if (!session) {
-      console.warn("User not logged in, redirecting to login...");
       router.push("/login");
       return;
     }
-  
+
     try {
-      const payload = JSON.stringify({ priceId });
-      console.log("Payload sent to API:", payload);
-  
       const response = await fetch("/api/create-checkout-session", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: payload,
+        body: JSON.stringify({ priceId }),
       });
-  
+
       if (!response.ok) {
-        const errorText = await response.text();
-        console.error("Failed response from API:", errorText);
         throw new Error("Failed to create checkout session");
       }
-  
+
       const { sessionId } = await response.json();
       const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
-  
+
       if (!stripe) {
         throw new Error("Failed to load Stripe");
       }
-  
+
       await stripe.redirectToCheckout({ sessionId });
     } catch (error) {
-      console.error("Error during subscription:", error);
       toast({
         title: "Error",
         description: "Failed to process subscription. Please try again.",
         variant: "destructive",
       });
     }
-  };  
-  
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -68,19 +94,19 @@ export default function PricingPage() {
       <main className="container mx-auto px-4 py-16">
         <div className="text-center">
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
-            Choose Your Plan
+            Flexible Pricing for Everyone
           </h1>
           <p className="mt-4 text-lg text-muted-foreground">
-            Start growing your audience with our professional promotion tools.
+            Whether you&apos;re a small business or a top-tier influencer, we have a plan tailored for your growth.
           </p>
         </div>
 
         <div className="mt-16 grid gap-8 md:grid-cols-3">
-          {Object.entries(STRIPE_PLANS).map(([key, plan]) => (
+          {Object.entries(CLOUTNEST_PLANS).map(([key, plan]) => (
             <Card key={key} className="relative p-6">
               {key === "pro" && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <span className="rounded-full bg-cyan-500 px-3 py-1 text-sm font-medium text-white">
+                  <span className="rounded-full bg-emerald-500 px-3 py-1 text-sm font-medium text-white">
                     Most Popular
                   </span>
                 </div>
@@ -97,20 +123,30 @@ export default function PricingPage() {
               <ul className="mt-6 space-y-4">
                 {plan.features.map((feature) => (
                   <li key={feature} className="flex items-center">
-                    <Check className="mr-2 h-4 w-4 text-cyan-500" />
+                    <Check className="mr-2 h-4 w-4 text-emerald-500" />
                     <span className="text-sm">{feature}</span>
                   </li>
                 ))}
               </ul>
 
               <Button
-                className={`mt-8 w-full ${key === "pro" ? "bg-cyan-500 hover:bg-cyan-600" : ""}`}
+                className={`mt-8 w-full ${key === "pro" ? "bg-emerald-500 hover:bg-emerald-600" : ""}`}
                 onClick={() => handleSubscribe(plan.id)}
               >
                 Subscribe Now
               </Button>
             </Card>
           ))}
+        </div>
+
+        <div className="mt-12 text-center">
+          <p className="text-muted-foreground">
+            Not sure which plan suits you?{" "}
+            <Link href="/contact" className="text-emerald-500 hover:underline">
+              Contact our support team
+            </Link>{" "}
+            for a personalized recommendation.
+          </p>
         </div>
       </main>
 

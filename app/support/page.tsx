@@ -52,22 +52,25 @@ export default function SupportPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background text-gray-100">
+      {/* Header */}
       <Header />
 
+      {/* Main Content */}
       <main className="container mx-auto px-4 py-16">
         <div className="text-center">
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
-            Support
+            Get in Touch
           </h1>
           <p className="mt-4 text-lg text-muted-foreground">
-            Need help? Fill out the form below and we&apos;ll get back to you shortly.
+            Have questions or need assistance? We&apos;re here to help. Fill out the form below, and our team will get back to you as soon as possible.
           </p>
         </div>
 
+        {/* Support Form */}
         <form onSubmit={handleSubmit} className="mt-12 max-w-2xl mx-auto space-y-6">
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-muted-foreground">
+            <label htmlFor="name" className="block text-sm font-medium text-gray-400">
               Your Name
             </label>
             <input
@@ -76,13 +79,14 @@ export default function SupportPage() {
               name="name"
               value={form.name}
               onChange={handleInputChange}
-              className="mt-1 block w-full rounded-md border border-muted-foreground p-2.5"
+              className="mt-1 block w-full rounded-md border border-gray-700 bg-gray-800 text-gray-100 p-2.5 focus:border-emerald-500 focus:ring focus:ring-emerald-500 focus:ring-opacity-50"
+              placeholder="Enter your full name"
               required
             />
           </div>
 
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-muted-foreground">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-400">
               Your Email
             </label>
             <input
@@ -91,13 +95,14 @@ export default function SupportPage() {
               name="email"
               value={form.email}
               onChange={handleInputChange}
-              className="mt-1 block w-full rounded-md border border-muted-foreground p-2.5"
+              className="mt-1 block w-full rounded-md border border-gray-700 bg-gray-800 text-gray-100 p-2.5 focus:border-emerald-500 focus:ring focus:ring-emerald-500 focus:ring-opacity-50"
+              placeholder="Enter your email address"
               required
             />
           </div>
 
           <div>
-            <label htmlFor="message" className="block text-sm font-medium text-muted-foreground">
+            <label htmlFor="message" className="block text-sm font-medium text-gray-400">
               Your Message
             </label>
             <textarea
@@ -106,17 +111,19 @@ export default function SupportPage() {
               rows={5}
               value={form.message}
               onChange={handleInputChange}
-              className="mt-1 block w-full rounded-md border border-muted-foreground p-2.5"
+              className="mt-1 block w-full rounded-md border border-gray-700 bg-gray-800 text-gray-100 p-2.5 focus:border-emerald-500 focus:ring focus:ring-emerald-500 focus:ring-opacity-50"
+              placeholder="Write your message here..."
               required
             />
           </div>
 
-          <Button type="submit" disabled={loading} className="w-full">
+          <Button type="submit" disabled={loading} className="w-full bg-emerald-500 hover:bg-emerald-600">
             {loading ? "Sending..." : "Send Message"}
           </Button>
         </form>
       </main>
 
+      {/* Footer */}
       <Footer />
     </div>
   );

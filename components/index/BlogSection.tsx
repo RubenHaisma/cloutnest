@@ -11,11 +11,11 @@ export const BlogSection = () => {
   return (
     <section className="relative bg-[#0A0F2C]/95 py-20">
       <div className="text-center mb-12">
-        <h2 className="text-3xl sm:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-blue-400">
-          More readings from Laava?
+        <h2 className="text-3xl sm:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-blue-400">
+          Insights and Success Stories
         </h2>
         <p className="text-base sm:text-lg text-gray-300 mt-4">
-          We are actively sharing and expanding our knowledge and insights.
+          Discover the latest trends, tips, and stories from influencers and brands on CloutNest.
         </p>
       </div>
 
@@ -23,7 +23,7 @@ export const BlogSection = () => {
         {latestPosts.map(({ id, title, date, contentPreview, headerImage }) => (
           <div 
             key={id} 
-            className="bg-sky-950 border border-white/5 rounded-xl shadow-sm overflow-hidden 
+            className="bg-gray-900 border border-white/5 rounded-xl shadow-sm overflow-hidden 
                      group hover:-translate-y-1 hover:shadow-xl 
                      transition-all duration-300 flex flex-col h-full"
           >
@@ -38,7 +38,7 @@ export const BlogSection = () => {
             </div>
             <div className="p-6 flex-1 flex flex-col justify-between">
               <div>
-                <h3 className="text-lg font-bold text-gray-100 mb-2 group-hover:text-blue-400 transition">
+                <h3 className="text-lg font-bold text-gray-100 mb-2 group-hover:text-emerald-400 transition">
                   <Link href={`/blog/${id}`}>
                     {title}
                   </Link>
@@ -48,8 +48,8 @@ export const BlogSection = () => {
               </div>
               <Link 
                 href={`/blog/${id}`} 
-                className="inline-flex items-center mt-4 text-blue-400 font-semibold 
-                         hover:text-blue-300 transition group"
+                className="inline-flex items-center mt-4 text-emerald-400 font-semibold 
+                         hover:text-emerald-300 transition group"
               >
                  Continue reading
                 <span className="ml-2 group-hover:translate-x-1 transition-transform">→</span>
@@ -63,7 +63,7 @@ export const BlogSection = () => {
         <Link
           href="/blog"
           className="inline-flex items-center px-8 py-3 text-lg font-semibold text-white 
-                   bg-gradient-to-r from-purple-500 to-blue-400 rounded-lg hover:from-purple-400 hover:to-blue-300 
+                   bg-gradient-to-r from-emerald-500 to-blue-400 rounded-lg hover:from-emerald-400 hover:to-blue-300 
                    transition-all duration-300 shadow-lg hover:shadow-xl"
         >
           See all articles

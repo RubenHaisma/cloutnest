@@ -1,12 +1,13 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button"; 
 import { Briefcase, Globe, Users } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { TestimonialsCarousel } from "@/components/landingspage/testimonials-carousel";
+import FAQ from "@/components/landingspage/faq";
 
 const container = {
   hidden: { opacity: 0 },
@@ -73,8 +74,8 @@ export default function Home() {
               <div className="aspect-video overflow-hidden rounded-xl border bg-background shadow-2xl">
                 <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent" />
                 <img
-                  src="https://images.unsplash.com/photo-1556745757-8d76bdb6984b?auto=format&fit=crop&w=1200&h=675"
-                  alt="CloutNest Platform Preview"
+                  src="/images/sonnie-hiles-WTe3w4POlCE-unsplash.jpg"
+                  alt="CloutNest Influencer Collaboration"
                   className="h-full w-full object-cover"
                 />
               </div>
@@ -127,6 +128,9 @@ export default function Home() {
           </motion.div>
         </section>
       </main>
+
+      {/* FAQ Section */}
+      <FAQ />
 
       <Footer />
     </div>
