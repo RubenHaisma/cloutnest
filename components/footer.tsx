@@ -10,7 +10,7 @@ export default function Footer() {
             <div className="space-y-4">
               <Link href="/" className="flex items-center gap-2">
                 <Rocket className="h-6 w-6" />
-                <span className="font-bold text-xl">BrandBoost</span>
+                <span className="font-bold text-xl">CloutNest</span>
               </Link>
               <p className="text-sm text-muted-foreground">
                 Connecting small brands with micro-influencers for impactful social media marketing campaigns.

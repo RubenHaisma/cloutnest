@@ -16,7 +16,7 @@ export default function Navbar() {
           <div className="flex">
             <Link href="/" className="flex items-center gap-2">
               <Rocket className="h-6 w-6" />
-              <span className="font-bold text-xl">BrandBoost</span>
+              <span className="font-bold text-xl">CloutNest</span>
             </Link>
           </div>
 
@@ -32,10 +32,14 @@ export default function Navbar() {
               Contact
             </Link>
             <ModeToggle />
-            <Button variant="outline" size="sm">
-              Sign In
-            </Button>
-            <Button size="sm">Get Started</Button>
+            <Link href="/login">
+              <Button variant="outline" size="sm">
+                Sign In
+              </Button>
+            </Link>
+            <Link href="/register">
+              <Button size="sm">Get Started</Button>
+            </Link>
           </div>
 
           {/* Mobile menu button */}
@@ -78,12 +82,16 @@ export default function Navbar() {
               Contact
             </Link>
             <div className="space-y-2 pt-4">
-              <Button variant="outline" className="w-full">
-                Sign In
-              </Button>
-              <Button className="w-full">
-                Get Started
-              </Button>
+              <Link href="/login">
+                <Button variant="outline" className="w-full">
+                  Sign In
+                </Button>
+              </Link>
+              <Link href="/register">
+                <Button className="w-full">
+                  Get Started
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

@@ -3,17 +3,15 @@ import {
   LucideProps,
   Moon,
   SunMedium,
-  Twitter,
   type Icon as LucideIcon,
 } from "lucide-react"
 
-export type Icon = LucideIcon
+export type Icon = typeof LucideIcon
 
 export const Icons = {
   sun: SunMedium,
   moon: Moon,
-  twitter: Twitter,
-  spinner: Loader2,
+  // twitter: Twitter, // Deprecated, consider using an alternative icon
   google: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"

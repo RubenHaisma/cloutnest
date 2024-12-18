@@ -60,7 +60,7 @@ export default function ContactPage() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 mb-16">
+        <div className="grid md:grid-cols-2 gap-8 mb-16">
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -70,7 +70,7 @@ export default function ContactPage() {
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">
-                support@cloutnest.com
+                contact@cloutnest.com
               </p>
             </CardContent>
           </Card>
@@ -84,21 +84,7 @@ export default function ContactPage() {
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">
-                +1 (555) 123-4567
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <MessageSquare className="h-5 w-5" />
-                Live Chat
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">
-                Available 24/7
+              +31 6 49 75 36 82
               </p>
             </CardContent>
           </Card>

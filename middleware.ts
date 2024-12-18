@@ -1,60 +1,27 @@
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
-import { getToken } from 'next-auth/jwt'
-import { checkRateLimit } from '@/lib/security/rate-limit'
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
 export async function middleware(request: NextRequest) {
-  // Rate limiting
-  const ip = request.ip ?? '127.0.0.1'
-  const ratelimited = await checkRateLimit(ip)
-  
-  if (!ratelimited) {
-    return NextResponse.json(
-      { error: 'Too many requests' },
-      { status: 429 }
-    )
+  const url = request.nextUrl;
+
+  // Skip static files (e.g., images, CSS, JS, fonts) and API requests
+  if (
+    url.pathname.startsWith("/_next") || // Next.js internals
+    url.pathname.startsWith("/api") || // API routes
+    url.pathname.startsWith("/static") || // Static files
+    /\.(.*)$/.test(url.pathname) // Files with extensions (e.g., .png, .css)
+  ) {
+    return NextResponse.next();
   }
 
-  // Auth protection
-  const token = await getToken({ req: request })
-  const isAuth = !!token
-  const isAuthPage = request.nextUrl.pathname.startsWith('/login') ||
-    request.nextUrl.pathname.startsWith('/register')
-
-  if (isAuthPage) {
-    if (isAuth) {
-      return NextResponse.redirect(new URL('/dashboard', request.url))
-    }
-    return NextResponse.next()
+  // Redirect all other requests to /construction
+  if (!url.pathname.startsWith("/construction")) {
+    return NextResponse.redirect(new URL("/construction", request.url));
   }
 
-  if (!isAuth && request.nextUrl.pathname.startsWith('/dashboard')) {
-    return NextResponse.redirect(new URL('/login', request.url))
-  }
-
-  // Role-based access
-  if (isAuth && request.nextUrl.pathname.startsWith('/dashboard')) {
-    const userRole = token.role as string
-    const isCreatorPath = request.nextUrl.pathname.startsWith('/dashboard/creator')
-    const isCompanyPath = request.nextUrl.pathname.startsWith('/dashboard/company')
-
-    if (isCreatorPath && userRole !== 'CREATOR') {
-      return NextResponse.redirect(new URL('/dashboard', request.url))
-    }
-
-    if (isCompanyPath && userRole !== 'COMPANY') {
-      return NextResponse.redirect(new URL('/dashboard', request.url))
-    }
-  }
-
-  return NextResponse.next()
+  return NextResponse.next();
 }
 
 export const config = {
-  matcher: [
-    '/dashboard/:path*',
-    '/login',
-    '/register',
-    '/api/:path*'
-  ],
-}
+  matcher: "/:path*", // Match all paths
+};

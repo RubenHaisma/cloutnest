@@ -11,7 +11,7 @@ export default function Home() {
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl font-bold tracking-tight sm:text-6xl bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/60">
-              Connect Brands with<br />Micro-Influencers
+              Connect Brands with<br />Influencers
             </h1>
             <p className="mt-6 text-lg leading-8 text-muted-foreground max-w-2xl mx-auto">
               BrandBoost helps small brands find and collaborate with authentic micro-influencers to create meaningful social media campaigns that drive real results.
