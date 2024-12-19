@@ -41,10 +41,12 @@ model User {
   name                 String?
   email                String?          @unique
   password             String?          @db.Text
-  totalEarnings        Float            @default(0)
+  totalSpend           Float            @default(0) // Tracks total spend by the user
+  campaignCount        Int              @default(0) // Tracks number of campaigns created
+  totalEarnings        Float            @default(0) // Tracks total earnings (if applicable)
   emailVerified        DateTime?
   image                String?
-  role                 String?          
+  role                 String?          // e.g., creator, curator, etc.
   stripeCustomerId     String?
   stripeAccountId      String?
   stripeAccountStatus  String?          @default("pending")
@@ -62,7 +64,7 @@ model User {
   tracks               Track[]
   earnings             CuratorEarnings[]
   increment            BigInt           @default(0) 
-  genres               String[]
+  genres               String[]         // Preferred genres or interests
   campaigns            Campaign[]
   submissions          TrackSubmission[]
   verificationTokens   VerificationToken[]
@@ -72,13 +74,13 @@ model Campaign {
   id            String   @id @default(cuid())
   title         String
   description   String?
-  status        String   @default("pending")
-  budget        Float
-  spent         Float    @default(0)
-  targetRegion  String?
+  status        String   @default("pending") // Status of the campaign
+  budget        Float    // Campaign budget
+  spent         Float    @default(0) // Amount spent in the campaign
+  targetRegion  String?  // Optional: Targeted region for the campaign
   startDate     DateTime
   endDate       DateTime
-  userId        String
+  userId        String   // Creator of the campaign
   user          User     @relation(fields: [userId], references: [id])
   tracks        CampaignTrack[]
   createdAt     DateTime @default(now())
@@ -89,7 +91,7 @@ model CampaignTrack {
   id          String   @id @default(cuid())
   campaignId  String
   trackId     String
-  status      String   @default("pending")
+  status      String   @default("pending") // Status of the track in the campaign
   addedAt     DateTime @default(now())
   campaign    Campaign @relation(fields: [campaignId], references: [id])
   track       Track    @relation(fields: [trackId], references: [id])
@@ -98,11 +100,11 @@ model CampaignTrack {
 model Notification {
   id        String   @id @default(cuid())
   userId    String
-  type      String
+  type      String   // Notification type (e.g., system, campaign, track update)
   title     String
   message   String
-  metadata  Json?
-  read      Boolean  @default(false)
+  metadata  Json?    // Optional additional data for the notification
+  read      Boolean  @default(false) // Has the notification been read?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -124,13 +126,13 @@ model Track {
   earnings          CuratorEarnings[]
   audioFeatures     TrackAudioFeatures?
   campaigns         CampaignTrack[]
-  totalSubmissions   BigInt        @default(0)
-  saves             BigInt          @default(0) 
-  shares            BigInt          @default(0)
-  comments          BigInt          @default(0)
-  followerGrowth    BigInt         @default(0)
-  streamGrowth      BigInt          @default(0)
-  submissions       TrackSubmission[] 
+  totalSubmissions  BigInt       @default(0)
+  saves             BigInt       @default(0)
+  shares            BigInt       @default(0)
+  comments          BigInt       @default(0)
+  followerGrowth    BigInt       @default(0)
+  streamGrowth      BigInt       @default(0)
+  submissions       TrackSubmission[]
 }
 
 model TrackAudioFeatures {
@@ -156,7 +158,7 @@ model Playlist {
   spotifyId   String        @unique
   genre       String
   subGenres   String[]
-  followers   BigInt           @default(0)
+  followers   BigInt        @default(0)
   curatorId   String
   curator     User          @relation(fields: [curatorId], references: [id])
   tracks      PlaylistTrack[]
@@ -182,7 +184,7 @@ model CuratorEarnings {
   id          String   @id @default(cuid())
   curatorId   String
   trackId     String
-  submissionId String? 
+  submissionId String?
   amount      Float
   status      String   @default("pending")
   paidOut     Boolean  @default(false)
