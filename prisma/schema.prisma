@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,19 +8,19 @@ datasource db {
 }
 
 model Account {
-  id                String   @id @default(cuid())
+  id                String  @id @default(cuid())
   userId            String
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String?  @db.Text
-  access_token      String?  @db.Text
+  refresh_token     String?
+  access_token      String?
   expires_at        BigInt?
   token_type        String?
   scope             String?
-  id_token          String?  @db.Text
+  id_token          String?
   session_state     String?
-  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -37,107 +34,107 @@ model Session {
 }
 
 model User {
-  id                   String           @id @default(cuid())
+  id                   String              @id @default(cuid())
   name                 String?
-  email                String?          @unique
-  password             String?          @db.Text
-  totalSpend           Float            @default(0) // Tracks total spend by the user
-  campaignCount        Int              @default(0) // Tracks number of campaigns created
-  totalEarnings        Float            @default(0) // Tracks total earnings (if applicable)
+  email                String?             @unique
+  password             String?
+  totalEarnings        Float               @default(0)
   emailVerified        DateTime?
   image                String?
-  role                 String?          // e.g., creator, curator, etc.
+  role                 String?
   stripeCustomerId     String?
   stripeAccountId      String?
-  stripeAccountStatus  String?          @default("pending")
+  stripeAccountStatus  String?             @default("pending")
   stripeSubscriptionId String?
   spotifyState         String?
   spotifyProfile       String?
   spotifyTokens        Json?
-  acceptanceRate       Float?           @default(0)
-  createdAt            DateTime         @default(now())
-  updatedAt            DateTime         @updatedAt
+  acceptanceRate       Float?              @default(0)
+  createdAt            DateTime            @default(now())
+  updatedAt            DateTime            @updatedAt
+  increment            BigInt              @default(0)
+  genres               String[]
+  campaignCount        Int                 @default(0)
+  totalSpend           Float               @default(0)
   accounts             Account[]
-  sessions             Session[]
+  campaigns            Campaign[]
+  earnings             CuratorEarnings[]
   notifications        Notification[]
   playlists            Playlist[]
+  sessions             Session[]
   tracks               Track[]
-  earnings             CuratorEarnings[]
-  increment            BigInt           @default(0) 
-  genres               String[]         // Preferred genres or interests
-  campaigns            Campaign[]
   submissions          TrackSubmission[]
   verificationTokens   VerificationToken[]
 }
 
 model Campaign {
-  id            String   @id @default(cuid())
-  title         String
-  description   String?
-  status        String   @default("pending") // Status of the campaign
-  budget        Float    // Campaign budget
-  spent         Float    @default(0) // Amount spent in the campaign
-  targetRegion  String?  // Optional: Targeted region for the campaign
-  startDate     DateTime
-  endDate       DateTime
-  userId        String   // Creator of the campaign
-  user          User     @relation(fields: [userId], references: [id])
-  tracks        CampaignTrack[]
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id           String          @id @default(cuid())
+  title        String
+  description  String?
+  status       String          @default("pending")
+  budget       Float
+  spent        Float           @default(0)
+  targetRegion String?
+  startDate    DateTime
+  endDate      DateTime
+  userId       String
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+  user         User            @relation(fields: [userId], references: [id])
+  tracks       CampaignTrack[]
 }
 
 model CampaignTrack {
-  id          String   @id @default(cuid())
-  campaignId  String
-  trackId     String
-  status      String   @default("pending") // Status of the track in the campaign
-  addedAt     DateTime @default(now())
-  campaign    Campaign @relation(fields: [campaignId], references: [id])
-  track       Track    @relation(fields: [trackId], references: [id])
+  id         String   @id @default(cuid())
+  campaignId String
+  trackId    String
+  status     String   @default("pending")
+  addedAt    DateTime @default(now())
+  campaign   Campaign @relation(fields: [campaignId], references: [id])
+  track      Track    @relation(fields: [trackId], references: [id])
 }
 
 model Notification {
   id        String   @id @default(cuid())
   userId    String
-  type      String   // Notification type (e.g., system, campaign, track update)
+  type      String
   title     String
   message   String
-  metadata  Json?    // Optional additional data for the notification
-  read      Boolean  @default(false) // Has the notification been read?
+  metadata  Json?
+  read      Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Track {
-  id                String        @id @default(cuid())
-  title             String
-  artist            String
-  genre             String
-  description       String?
-  spotifyUrl        String
-  status            String       @default("pending")
-  userId            String
-  createdAt         DateTime     @default(now())
-  updatedAt         DateTime     @updatedAt
-  user              User         @relation(fields: [userId], references: [id])
-  playlists         PlaylistTrack[]
-  earnings          CuratorEarnings[]
-  audioFeatures     TrackAudioFeatures?
-  campaigns         CampaignTrack[]
-  totalSubmissions  BigInt       @default(0)
-  saves             BigInt       @default(0)
-  shares            BigInt       @default(0)
-  comments          BigInt       @default(0)
-  followerGrowth    BigInt       @default(0)
-  streamGrowth      BigInt       @default(0)
-  submissions       TrackSubmission[]
+  id               String              @id @default(cuid())
+  title            String
+  artist           String
+  genre            String
+  description      String?
+  spotifyUrl       String
+  status           String              @default("pending")
+  userId           String
+  createdAt        DateTime            @default(now())
+  updatedAt        DateTime            @updatedAt
+  totalSubmissions BigInt              @default(0)
+  saves            BigInt              @default(0)
+  shares           BigInt              @default(0)
+  comments         BigInt              @default(0)
+  followerGrowth   BigInt              @default(0)
+  streamGrowth     BigInt              @default(0)
+  campaigns        CampaignTrack[]
+  earnings         CuratorEarnings[]
+  playlists        PlaylistTrack[]
+  user             User                @relation(fields: [userId], references: [id])
+  audioFeatures    TrackAudioFeatures?
+  submissions      TrackSubmission[]
 }
 
 model TrackAudioFeatures {
-  id               String   @id @default(cuid())
-  trackId          String   @unique
+  id               String @id @default(cuid())
+  trackId          String @unique
   danceability     Float
   energy           Float
   key              BigInt
@@ -149,63 +146,63 @@ model TrackAudioFeatures {
   liveness         Float
   valence          Float
   tempo            Float
-  track            Track    @relation(fields: [trackId], references: [id])
+  track            Track  @relation(fields: [trackId], references: [id])
 }
 
 model Playlist {
-  id          String        @id @default(cuid())
-  name        String
-  spotifyId   String        @unique
-  genre       String
-  subGenres   String[]
-  followers   BigInt        @default(0)
-  curatorId   String
-  curator     User          @relation(fields: [curatorId], references: [id])
-  tracks      PlaylistTrack[]
-  averageFeatures Json?
-  avgEnergy       Float?
-  avgDanceability Float?
-  avgValence      Float?
+  id                 String          @id @default(cuid())
+  name               String
+  spotifyId          String          @unique
+  genre              String
+  subGenres          String[]
+  followers          BigInt          @default(0)
+  curatorId          String
+  averageFeatures    Json?
+  avgEnergy          Float?
+  avgDanceability    Float?
+  avgValence         Float?
   avgTempoNormalized Float?
+  curator            User            @relation(fields: [curatorId], references: [id])
+  tracks             PlaylistTrack[]
 }
 
 model PlaylistTrack {
-  id          String   @id @default(cuid())
-  playlistId  String
-  trackId     String
-  addedAt     DateTime @default(now())
-  matchScore  Float?
+  id           String   @id @default(cuid())
+  playlistId   String
+  trackId      String
+  addedAt      DateTime @default(now())
+  matchScore   Float?
   matchReasons String[]
-  playlist    Playlist @relation(fields: [playlistId], references: [id])
-  track       Track    @relation(fields: [trackId], references: [id])
+  playlist     Playlist @relation(fields: [playlistId], references: [id])
+  track        Track    @relation(fields: [trackId], references: [id])
 }
 
 model CuratorEarnings {
-  id          String   @id @default(cuid())
-  curatorId   String
-  trackId     String
+  id           String   @id @default(cuid())
+  curatorId    String
+  trackId      String
   submissionId String?
-  amount      Float
-  status      String   @default("pending")
-  paidOut     Boolean  @default(false)
-  transferId  String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  curator     User     @relation(fields: [curatorId], references: [id])
-  track       Track    @relation(fields: [trackId], references: [id])
+  amount       Float
+  status       String   @default("pending")
+  paidOut      Boolean  @default(false)
+  transferId   String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  curator      User     @relation(fields: [curatorId], references: [id])
+  track        Track    @relation(fields: [trackId], references: [id])
 }
 
 model TrackSubmission {
-  id          String   @id @default(cuid())
-  trackId     String
-  curatorId   String
-  status      String   @default("pending")
-  feedback    String?
-  reviewedAt  DateTime?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  track       Track    @relation(fields: [trackId], references: [id])
-  curator     User     @relation(fields: [curatorId], references: [id])
+  id         String    @id @default(cuid())
+  trackId    String
+  curatorId  String
+  status     String    @default("pending")
+  feedback   String?
+  reviewedAt DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  curator    User      @relation(fields: [curatorId], references: [id])
+  track      Track     @relation(fields: [trackId], references: [id])
 }
 
 model VerificationToken {
@@ -213,6 +210,6 @@ model VerificationToken {
   token     String   @unique
   expires   DateTime
   userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
