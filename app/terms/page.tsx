@@ -1,119 +1,95 @@
-import { Card } from "@/components/ui/card";
-import { Header } from "@/components/layout/header";
-import { Footer } from "@/components/layout/footer";
-
-export const metadata = {
-  title: "Terms of Service - CloutNest",
-  description: "Terms of service and user agreement for CloutNest",
-};
-
 export default function TermsPage() {
   return (
-    <div className="flex min-h-screen flex-col">
-      <Header />
-      
-      <main className="flex-1 container mx-auto px-4 py-8 max-w-4xl">
-        <Card className="p-8">
-          <h1 className="text-3xl font-bold mb-8">Terms of Service</h1>
-          
-          <div className="prose dark:prose-invert max-w-none">
-            <p className="text-muted-foreground mb-4">
-              Last updated: {new Date().toLocaleDateString()}
-            </p>
+    <div className="py-20 px-4">
+      <div className="max-w-4xl mx-auto prose dark:prose-invert">
+        <h1>Terms of Service</h1>
+        <p className="lead">
+          Last updated: August 2023
+        </p>
 
-            {/* Section 1 */}
-            <section className="mb-8">
-              <h2 className="text-2xl font-semibold mb-4">1. Agreement to Terms</h2>
-              <p>
-                By accessing or using CloutNest, you agree to be bound by these Terms of Service and all applicable
-                laws and regulations. If you do not agree with any of these terms, you are prohibited from using the platform.
-              </p>
-            </section>
+        <h2>1. Agreement to Terms</h2>
+        <p>
+          By accessing or using CloutNest's platform, you agree to be bound by these 
+          Terms of Service and all applicable laws and regulations. If you do not 
+          agree with any of these terms, you are prohibited from using the platform.
+        </p>
 
-            {/* Section 2 */}
-            <section className="mb-8">
-              <h2 className="text-2xl font-semibold mb-4">2. User Responsibilities</h2>
-              <h3 className="text-xl font-medium mb-2">For Influencers:</h3>
-              <ul className="list-disc pl-6 mb-4">
-                <li>Provide accurate details about your audience, engagement, and niche</li>
-                <li>Deliver content as agreed upon with brands</li>
-                <li>Follow ethical standards and disclose partnerships transparently</li>
-                <li>Maintain professional conduct while engaging with brands</li>
-              </ul>
+        <h2>2. Use License</h2>
+        <p>
+          Permission is granted to temporarily access and use CloutNest's platform 
+          for personal, non-commercial transitory viewing only.
+        </p>
 
-              <h3 className="text-xl font-medium mb-2">For Businesses:</h3>
-              <ul className="list-disc pl-6 mb-4">
-                <li>Provide clear and accurate campaign briefs</li>
-                <li>Respect influencer content creation timelines</li>
-                <li>Ensure timely payments for completed collaborations</li>
-                <li>Maintain professionalism during all communications</li>
-              </ul>
-            </section>
+        <h3>This license shall not allow you to:</h3>
+        <ul>
+          <li>Modify or copy the materials</li>
+          <li>Use the materials for any commercial purpose</li>
+          <li>Attempt to decompile or reverse engineer any software</li>
+          <li>Remove any copyright or proprietary notations</li>
+          <li>Transfer the materials to another person</li>
+        </ul>
 
-            {/* Section 3 */}
-            <section className="mb-8">
-              <h2 className="text-2xl font-semibold mb-4">3. Payment Terms</h2>
-              <p className="mb-4">
-                All payments facilitated through CloutNest are subject to our processing terms. Businesses are required
-                to deposit campaign funds upfront, which will be released to influencers upon successful collaboration.
-                Refunds are provided only under exceptional circumstances.
-              </p>
-            </section>
+        <h2>3. User Accounts</h2>
+        <p>
+          To access certain features of the platform, you must register for an 
+          account. You agree to provide accurate information and maintain the 
+          security of your account.
+        </p>
 
-            {/* Section 4 */}
-            <section className="mb-8">
-              <h2 className="text-2xl font-semibold mb-4">4. Intellectual Property</h2>
-              <p className="mb-4">
-                Influencers retain ownership of the content they create unless explicitly agreed otherwise. Businesses
-                are granted a license to use the content as specified in the collaboration agreement.
-              </p>
-            </section>
+        <h2>4. Platform Rules</h2>
+        <h3>4.1 Brands must:</h3>
+        <ul>
+          <li>Provide accurate campaign information</li>
+          <li>Pay creators promptly</li>
+          <li>Respect intellectual property rights</li>
+          <li>Maintain professional communication</li>
+        </ul>
 
-            {/* Section 5 */}
-            <section className="mb-8">
-              <h2 className="text-2xl font-semibold mb-4">5. Prohibited Activities</h2>
-              <ul className="list-disc pl-6 mb-4">
-                <li>Providing false or misleading information</li>
-                <li>Engaging in spamming or fraudulent activities</li>
-                <li>Violating intellectual property rights</li>
-                <li>Harassing or discriminating against other users</li>
-                <li>Creating fake accounts or inflating metrics artificially</li>
-              </ul>
-            </section>
+        <h3>4.2 Creators must:</h3>
+        <ul>
+          <li>Deliver content as agreed</li>
+          <li>Maintain authentic engagement</li>
+          <li>Disclose sponsored content</li>
+          <li>Follow platform guidelines</li>
+        </ul>
 
-            {/* Section 6 */}
-            <section className="mb-8">
-              <h2 className="text-2xl font-semibold mb-4">6. Termination</h2>
-              <p>
-                CloutNest reserves the right to suspend or terminate accounts that violate these terms, engage in
-                fraudulent activities, or misuse the platform.
-              </p>
-            </section>
+        <h2>5. Payments</h2>
+        <p>
+          All payments are processed securely through our platform. We charge a 
+          service fee for facilitating transactions between brands and creators.
+        </p>
 
-            {/* Section 7 */}
-            <section className="mb-8">
-              <h2 className="text-2xl font-semibold mb-4">7. Liability Disclaimer</h2>
-              <p>
-                CloutNest serves as a facilitator for collaborations and is not liable for disputes arising between
-                influencers and businesses. However, we encourage users to report issues, and we will mediate where possible.
-              </p>
-            </section>
+        <h2>6. Content Guidelines</h2>
+        <p>
+          All content must comply with our community guidelines and applicable laws. 
+          Prohibited content includes:
+        </p>
+        <ul>
+          <li>Hate speech</li>
+          <li>Adult content</li>
+          <li>Violence</li>
+          <li>Spam</li>
+          <li>Misleading information</li>
+        </ul>
 
-            {/* Section 8 */}
-            <section className="mb-8">
-              <h2 className="text-2xl font-semibold mb-4">8. Contact</h2>
-              <p>
-                For questions about these terms, please contact us at{" "}
-                <a href="mailto:legal@cloutnest.com" className="text-emerald-500 hover:underline">
-                  contact@cloutnest.com
-                </a>.
-              </p>
-            </section>
-          </div>
-        </Card>
-      </main>
+        <h2>7. Termination</h2>
+        <p>
+          We reserve the right to terminate or suspend accounts that violate these 
+          terms or for any other reason at our discretion.
+        </p>
 
-      <Footer />
+        <h2>8. Limitation of Liability</h2>
+        <p>
+          CloutNest shall not be liable for any indirect, incidental, special, 
+          consequential, or punitive damages resulting from your use of the platform.
+        </p>
+
+        <h2>9. Contact Information</h2>
+        <p>
+          Questions about the Terms of Service should be sent to us at 
+          legal@cloutnest.com
+        </p>
+      </div>
     </div>
   );
 }

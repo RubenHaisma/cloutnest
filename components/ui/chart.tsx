@@ -3,26 +3,7 @@
 import * as React from 'react';
 import * as RechartsPrimitive from 'recharts';
 
-// Helper to generate classnames.
-export function cn(...inputs: unknown[]): string {
-  return inputs
-    .map((input) => {
-      if (typeof input === 'string') {
-        return input
-      }
-      if (typeof input === 'object' && input !== null) {
-        return Object.entries(input)
-          .filter(([, value]) => Boolean(value))
-          .map(([key]) => key)
-          .join(' ')
-      }
-      return ''
-    })
-    .filter(Boolean)
-    .join(' ')
-}
-
-
+import { cn } from '@/lib/utils';
 
 // Format: { THEME_NAME: CSS_SELECTOR }
 const THEMES = { light: '', dark: '.dark' } as const;
@@ -214,7 +195,7 @@ const ChartTooltipContent = React.forwardRef<
                 key={item.dataKey}
                 className={cn(
                   'flex w-full flex-wrap items-stretch gap-2 [&>svg]:h-2.5 [&>svg]:w-2.5 [&>svg]:text-muted-foreground',
-                  indicator === 'dot' ? 'items-center' : undefined
+                  indicator === 'dot' && 'items-center'
                 )}
               >
                 {formatter && item?.value !== undefined && item.name ? (

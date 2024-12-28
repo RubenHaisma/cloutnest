@@ -1,21 +1,58 @@
-export interface OnboardingData {
-  role: 'influencer' | 'business'; // Updated to reflect CloutNest roles
-  name: string; // Name or brand name
-  bio: string; // About the influencer or business
-  industries: string[]; // Changed from "genres" to "industries" to match the business/influencer focus
-  instagramProfile?: string; // Added Instagram profile connection
-  tiktokProfile?: string; // Added TikTok profile connection
+// Common Types
+export interface Campaign {
+  id: string;
+  title: string;
+  description: string;
+  budget: number;
+  requirements: {
+    minFollowers: number;
+    platforms: string[];
+    niche: string[];
+  };
+  status: 'draft' | 'active' | 'completed';
+  metrics?: {
+    reach: number;
+    engagement: number;
+    clicks: number;
+  };
 }
 
-export interface OnboardingFormState {
-  step: number; // Current step in the onboarding process
-  data: Partial<OnboardingData>; // Partial onboarding data as the user progresses
+export interface Profile {
+  id: string;
+  userId: string;
+  name: string;
+  bio: string;
+  socialLinks: {
+    platform: string;
+    handle: string;
+    followers: number;
+    engagement: number;
+  }[];
+  niche: string[];
+  location: string;
+  profileImage?: string;
 }
 
-export type EarningsTimeframe = 'week' | 'month' | 'year';
+export interface Message {
+  id: string;
+  senderId: string;
+  receiverId: string;
+  content: string;
+  timestamp: Date;
+  read: boolean;
+  campaignId?: string;
+}
 
-export interface EarningsData {
-  date: string; // Date of earnings data
-  earnings: number; // Total earnings for the timeframe
-  campaigns: number; // Updated to represent campaigns instead of tracks
+export interface Analytics {
+  period: string;
+  metrics: {
+    reach: number;
+    engagement: number;
+    clicks: number;
+    conversions: number;
+  };
+  trends: {
+    date: string;
+    value: number;
+  }[];
 }

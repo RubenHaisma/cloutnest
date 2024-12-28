@@ -1,138 +1,97 @@
-"use client";
-
-import { Button } from "@/components/ui/button"; 
-import { Briefcase, Globe, Users } from "lucide-react";
-import Link from "next/link";
-import { motion } from "framer-motion";
-import { Header } from "@/components/layout/header";
-import { Footer } from "@/components/layout/footer";
-import { TestimonialsCarousel } from "@/components/landingspage/testimonials-carousel";
-import FAQ from "@/components/landingspage/faq";
-
-const container = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-};
-
-const item = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0 },
-};
+import Link from 'next/link'
+import { Button } from '@/components/ui/button'
+import { ArrowRight, BarChart2, Shield, Users } from 'lucide-react'
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen flex-col">
-      <Header />
-      <main className="flex-1">
-        {/* Hero Section */}
-        <section className="relative overflow-hidden bg-background py-24 md:py-32">
-          <div className="container mx-auto px-4">
-            <motion.div
-              className="relative z-10 mx-auto max-w-[800px] space-y-8 text-center"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
-                <span className="bg-gradient-to-r from-green-500 to-blue-500 bg-clip-text text-transparent">
-                  Empower Influencers. Elevate Brands.
-                </span>
-              </h1>
-              <p className="mx-auto max-w-[600px] text-gray-500 md:text-xl dark:text-gray-400">
-                CloutNest connects influencers with brands to create meaningful collaborations.
-                Discover opportunities, grow your influence, and achieve success.
-              </p>
-              <div className="flex flex-col gap-4 sm:flex-row justify-center">
-                <Link href="/signup?role=influencer">
-                  <Button size="lg" className="w-full sm:w-auto bg-green-500 hover:bg-green-600">
-                    <Users className="mr-2 h-4 w-4" /> Join as Influencer
-                  </Button>
-                </Link>
-                <Link href="/signup?role=brand">
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    className="w-full sm:w-auto border-green-500 text-green-500 hover:bg-green-500/10"
-                  >
-                    <Briefcase className="mr-2 h-4 w-4" /> Join as Brand
-                  </Button>
-                </Link>
-              </div>
-            </motion.div>
-
-            <motion.div
-              className="relative mx-auto mt-16 max-w-[1200px]"
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.3, duration: 0.5 }}
-            >
-              <div className="aspect-video overflow-hidden rounded-xl border bg-background shadow-2xl">
-                <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent" />
-                <img
-                  src="/images/sonnie-hiles-WTe3w4POlCE-unsplash.jpg"
-                  alt="CloutNest Influencer Collaboration"
-                  className="h-full w-full object-cover"
-                />
-              </div>
-
-              <div className="absolute -bottom-6 -left-6 h-24 w-24 rounded-full bg-green-500/20 blur-2xl" />
-              <div className="absolute -right-6 -top-6 h-24 w-24 rounded-full bg-blue-500/20 blur-2xl" />
-            </motion.div>
+    <div className="flex flex-col min-h-screen">
+      {/* Hero Section */}
+      <section className="relative py-20 md:py-32 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-primary/10 to-background"></div>
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h1 className="text-4xl font-bold tracking-tight sm:text-6xl bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/60">
+              Connect Brands with<br />Influencers
+            </h1>
+            <p className="mt-6 text-lg leading-8 text-muted-foreground max-w-2xl mx-auto">
+              BrandBoost helps small brands find and collaborate with authentic micro-influencers to create meaningful social media campaigns that drive real results.
+            </p>
+            <div className="mt-10 flex items-center justify-center gap-x-6">
+              <Button size="lg" className="gap-2">
+                Get Started <ArrowRight className="h-4 w-4" />
+              </Button>
+              <Button size="lg" variant="outline">
+                Learn More
+              </Button>
+            </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Testimonials Section */}
-        <TestimonialsCarousel />
-
-        {/* Features Section */}
-        <section className="border-t bg-muted/40 py-24">
-          <motion.div
-            className="container mx-auto grid gap-8 px-4 md:grid-cols-3"
-            variants={container}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-          >
-            <motion.div variants={item} className="flex flex-col items-center text-center">
-              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-green-500 text-white">
-                <Globe className="h-6 w-6" />
+      {/* Features Section */}
+      <section className="py-20 bg-muted/50">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+              Why Choose BrandBoost?
+            </h2>
+            <p className="mt-4 text-lg text-muted-foreground">
+              Everything you need to run successful influencer marketing campaigns
+            </p>
+          </div>
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+            <div className="flex flex-col items-center text-center p-6 rounded-lg bg-background shadow-sm">
+              <div className="rounded-full bg-primary/10 p-3 mb-4">
+                <Users className="h-6 w-6 text-primary" />
               </div>
-              <h3 className="mt-4 text-lg font-semibold">Global Reach</h3>
-              <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-                Connect with influencers and brands from around the world to create impactful collaborations.
+              <h3 className="text-xl font-semibold mb-2">Perfect Matches</h3>
+              <p className="text-muted-foreground">
+                Our AI-powered matching system connects you with influencers that align with your brand values and target audience.
               </p>
-            </motion.div>
-            <motion.div variants={item} className="flex flex-col items-center text-center">
-              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-green-500 text-white">
-                <Users className="h-6 w-6" />
+            </div>
+            <div className="flex flex-col items-center text-center p-6 rounded-lg bg-background shadow-sm">
+              <div className="rounded-full bg-primary/10 p-3 mb-4">
+                <BarChart2 className="h-6 w-6 text-primary" />
               </div>
-              <h3 className="mt-4 text-lg font-semibold">Verified Network</h3>
-              <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-                Work with verified influencers and brands to ensure authentic and trustworthy partnerships.
+              <h3 className="text-xl font-semibold mb-2">Real-Time Analytics</h3>
+              <p className="text-muted-foreground">
+                Track campaign performance with detailed analytics and insights to optimize your marketing strategy.
               </p>
-            </motion.div>
-            <motion.div variants={item} className="flex flex-col items-center text-center">
-              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-green-500 text-white">
-                <Briefcase className="h-6 w-6" />
+            </div>
+            <div className="flex flex-col items-center text-center p-6 rounded-lg bg-background shadow-sm">
+              <div className="rounded-full bg-primary/10 p-3 mb-4">
+                <Shield className="h-6 w-6 text-primary" />
               </div>
-              <h3 className="mt-4 text-lg font-semibold">Campaign Analytics</h3>
-              <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-                Get real-time analytics on your campaigns to measure impact and optimize for success.
+              <h3 className="text-xl font-semibold mb-2">Secure Payments</h3>
+              <p className="text-muted-foreground">
+                Integrated payment system with escrow protection for both brands and influencers.
               </p>
-            </motion.div>
-          </motion.div>
-        </section>
-      </main>
+            </div>
+          </div>
+        </div>
+      </section>
 
-      {/* FAQ Section */}
-      <FAQ />
-
-      <Footer />
+      {/* CTA Section */}
+      <section className="py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="rounded-2xl bg-primary p-8 md:p-16 text-center">
+            <h2 className="text-3xl font-bold tracking-tight text-primary-foreground sm:text-4xl">
+              Ready to boost your brand?
+            </h2>
+            <p className="mt-4 text-lg text-primary-foreground/90">
+              Join thousands of successful brands and influencers on BrandBoost
+            </p>
+            <div className="mt-10 flex items-center justify-center gap-x-6">
+              <Button size="lg" variant="secondary">
+                Start Your Campaign
+              </Button>
+              <Button size="lg" variant="outline" className="bg-transparent text-primary-foreground border-primary-foreground hover:bg-primary-foreground/10">
+                Become an Influencer
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
-  );
+  )
 }

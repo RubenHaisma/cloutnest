@@ -1,37 +1,30 @@
 "use client";
 
-import { useOnboardingStore } from "@/hooks/use-onboarding-store";
-import { OnboardingProgress } from "@/components/onboarding/onboarding-progress";
-import { RoleSelection } from "@/components/onboarding/steps/role-selection";
-import { ProfileSetup } from "@/components/onboarding/steps/profile-setup";
-import { NicheSelection } from "@/components/onboarding/steps/niche-selection";
-import { SocialConnect } from "@/components/onboarding/steps/socials-connect";
-import { Globe } from "lucide-react";
-import Link from "next/link";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useOnboarding } from "@/lib/hooks/use-onboarding";
+import { OnboardingProgress } from "@/components/onboarding/progress";
+import { ProfileForm } from "@/components/onboarding/profile-form";
+import { SocialForm } from "@/components/onboarding/social-form";
+import { PreferencesForm } from "@/components/onboarding/preferences-form";
 
 export default function OnboardingPage() {
-  const step = useOnboardingStore((state) => state.step);
+  const router = useRouter();
+  const { currentStep, isComplete } = useOnboarding();
+
+  useEffect(() => {
+    if (isComplete) {
+      router.push("/dashboard");
+    }
+  }, [isComplete, router]);
 
   return (
-    <div className="flex min-h-screen flex-col bg-background text-gray-100">
-      {/* Header */}
-      <div className="container flex h-16 items-center px-4">
-        <Link href="/" className="flex items-center space-x-2">
-          <Globe className="h-6 w-6 text-emerald-500" />
-          <span className="text-xl font-bold">CloutNest</span>
-        </Link>
-      </div>
-
-      {/* Main Content */}
-      <main className="flex-1 container max-w-lg mx-auto px-4 py-8">
-        <OnboardingProgress />
-        <div className="mt-8">
-          {step === 1 && <RoleSelection />}
-          {step === 2 && <ProfileSetup />}
-          {step === 3 && <NicheSelection />}
-          {step === 4 && <SocialConnect />}
-        </div>
-      </main>
+    <div className="space-y-8 py-10">
+      <OnboardingProgress />
+      
+      {currentStep === "profile" && <ProfileForm />}
+      {currentStep === "social" && <SocialForm />}
+      {currentStep === "preferences" && <PreferencesForm />}
     </div>
   );
 }

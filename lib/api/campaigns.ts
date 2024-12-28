@@ -1,69 +1,35 @@
-import { prisma } from "@/lib/prisma"
+import { Campaign } from '../types';
 
-export async function getCampaign(id: string) {
-  return await prisma.campaign.findUnique({
-    where: { id },
-    include: {
-      tracks: {
-        include: {
-          track: true,
-        },
-      },
+// Mock data - replace with actual API calls
+const mockCampaigns: Campaign[] = [
+  {
+    id: '1',
+    title: 'Summer Fashion Collection Launch',
+    description: 'Promote our new summer collection on Instagram and TikTok',
+    budget: 5000,
+    requirements: {
+      minFollowers: 10000,
+      platforms: ['instagram', 'tiktok'],
+      niche: ['fashion', 'lifestyle'],
     },
-  })
+    status: 'active',
+    metrics: {
+      reach: 50000,
+      engagement: 2500,
+      clicks: 1200,
+    },
+  },
+  // Add more mock campaigns...
+];
+
+export async function getCampaigns(): Promise<Campaign[]> {
+  return mockCampaigns;
 }
 
-export async function createCampaign(data: {
-  title: string
-  description?: string
-  budget: number
-  targetRegion?: string
-  startDate: Date
-  endDate: Date
-  userId: string
-}) {
-  return await prisma.campaign.create({
-    data,
-  })
-}
-
-export async function updateCampaign(id: string, data: {
-  title?: string
-  description?: string
-  status?: string
-  budget?: number
-  spent?: number
-  targetRegion?: string
-  startDate?: Date
-  endDate?: Date
-}) {
-  return await prisma.campaign.update({
-    where: { id },
-    data,
-  })
-}
-
-export async function deleteCampaign(id: string) {
-  return await prisma.campaign.delete({
-    where: { id },
-  })
-}
-
-export async function getUserCampaigns(userId: string, status?: string) {
-  return await prisma.campaign.findMany({
-    where: {
-      userId,
-      ...(status && { status }),
-    },
-    include: {
-      tracks: {
-        include: {
-          track: true,
-        },
-      },
-    },
-    orderBy: {
-      createdAt: 'desc',
-    },
-  })
+export async function createCampaign(campaign: Omit<Campaign, 'id'>): Promise<Campaign> {
+  const newCampaign = {
+    ...campaign,
+    id: Math.random().toString(36).substr(2, 9),
+  };
+  return newCampaign;
 }

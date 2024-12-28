@@ -1,91 +1,93 @@
-import { Card } from "@/components/ui/card"
-import {
-  BarChart3,
-  Music,
-  PlayCircle,
-  TrendingUp,
-  Users,
-} from "lucide-react"
+"use client"
+
+import { useAuth } from '@/lib/auth';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { BarChart2, DollarSign, Users, TrendingUp } from 'lucide-react';
 
 export default function DashboardPage() {
+  const { user } = useAuth();
+
+  const stats = user?.role === 'brand' 
+    ? [
+        {
+          title: 'Active Campaigns',
+          value: '12',
+          icon: BarChart2,
+          change: '+2.1%',
+        },
+        {
+          title: 'Total Reach',
+          value: '284.5K',
+          icon: Users,
+          change: '+14.2%',
+        },
+        {
+          title: 'Campaign Budget',
+          value: '$12,423',
+          icon: DollarSign,
+          change: '+5.4%',
+        },
+        {
+          title: 'Engagement Rate',
+          value: '4.3%',
+          icon: TrendingUp,
+          change: '+1.2%',
+        },
+      ]
+    : [
+        {
+          title: 'Active Gigs',
+          value: '8',
+          icon: BarChart2,
+          change: '+3.1%',
+        },
+        {
+          title: 'Total Earnings',
+          value: '$8,423',
+          icon: DollarSign,
+          change: '+12.2%',
+        },
+        {
+          title: 'Followers',
+          value: '124.5K',
+          icon: Users,
+          change: '+2.4%',
+        },
+        {
+          title: 'Engagement Rate',
+          value: '5.2%',
+          icon: TrendingUp,
+          change: '+0.8%',
+        },
+      ];
+
   return (
-    <div className="space-y-8 p-8">
+    <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold">Welcome back, Artist</h1>
+        <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
         <p className="text-muted-foreground">
-          Here&apos;s what&apos;s happening with your music
+          Welcome back, {user?.name}! Here's what's happening with your account.
         </p>
       </div>
-
+      
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="p-6">
-          <div className="flex items-center space-x-4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
-              <Music className="h-6 w-6 text-primary" />
-            </div>
-            <div>
-              <p className="text-sm text-muted-foreground">Active Campaigns</p>
-              <h3 className="text-2xl font-bold">3</h3>
-            </div>
-          </div>
-        </Card>
-        <Card className="p-6">
-          <div className="flex items-center space-x-4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
-              <PlayCircle className="h-6 w-6 text-primary" />
-            </div>
-            <div>
-              <p className="text-sm text-muted-foreground">Playlist Adds</p>
-              <h3 className="text-2xl font-bold">24</h3>
-            </div>
-          </div>
-        </Card>
-        <Card className="p-6">
-          <div className="flex items-center space-x-4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
-              <Users className="h-6 w-6 text-primary" />
-            </div>
-            <div>
-              <p className="text-sm text-muted-foreground">Total Reach</p>
-              <h3 className="text-2xl font-bold">125K</h3>
-            </div>
-          </div>
-        </Card>
-        <Card className="p-6">
-          <div className="flex items-center space-x-4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
-              <TrendingUp className="h-6 w-6 text-primary" />
-            </div>
-            <div>
-              <p className="text-sm text-muted-foreground">Growth Rate</p>
-              <h3 className="text-2xl font-bold">+15%</h3>
-            </div>
-          </div>
-        </Card>
-      </div>
-
-      <div className="grid gap-4 md:grid-cols-2">
-        <Card className="p-6">
-          <div className="flex items-center justify-between">
-            <h3 className="font-semibold">Recent Activity</h3>
-            <BarChart3 className="h-4 w-4 text-muted-foreground" />
-          </div>
-          <div className="mt-4 space-y-4">
-            {/* Activity items would go here */}
-            <p className="text-sm text-muted-foreground">Loading activity...</p>
-          </div>
-        </Card>
-        <Card className="p-6">
-          <div className="flex items-center justify-between">
-            <h3 className="font-semibold">Top Performing Tracks</h3>
-            <Music className="h-4 w-4 text-muted-foreground" />
-          </div>
-          <div className="mt-4 space-y-4">
-            {/* Track list would go here */}
-            <p className="text-sm text-muted-foreground">Loading tracks...</p>
-          </div>
-        </Card>
+        {stats.map((stat) => (
+          <Card key={stat.title}>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">
+                {stat.title}
+              </CardTitle>
+              <stat.icon className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{stat.value}</div>
+              <p className="text-xs text-muted-foreground">
+                <span className="text-emerald-500">{stat.change}</span> from last month
+              </p>
+            </CardContent>
+          </Card>
+        ))}
       </div>
     </div>
-  )
+  );
 }

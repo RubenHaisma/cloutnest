@@ -104,11 +104,7 @@ const AlertDialogAction = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <AlertDialogPrimitive.Action
     ref={ref}
-    className={cn(
-      buttonVariants(),
-      'focus-visible:ring-cyan-500',
-      className
-    )}
+    className={cn(buttonVariants(), className)}
     {...props}
   />
 ));
