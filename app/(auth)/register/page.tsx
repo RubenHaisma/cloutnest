@@ -1,22 +1,16 @@
 "use client";
 
 import { useState } from "react";
+import { signIn } from "next-auth/react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Icons } from "@/components/icons";
+import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Icons } from "@/components/icons";
-import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
 
 const registerSchema = z.object({
   name: z.string().min(2).max(50),
@@ -30,23 +24,27 @@ type RegisterValues = z.infer<typeof registerSchema>;
 export default function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
+  const error = searchParams.get("error");
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<RegisterValues>({
     resolver: zodResolver(registerSchema),
+    defaultValues: {
+      role: "CREATOR",
+    },
   });
 
-  async function onSubmit(data: RegisterValues) {
+  const onSubmit = async (data: RegisterValues) => {
     setIsLoading(true);
-
     try {
       const response = await fetch("/api/register", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
 
@@ -54,50 +52,36 @@ export default function RegisterPage() {
         throw new Error("Registration failed");
       }
 
-      await signIn("credentials", {
-        email: data.email,
-        password: data.password,
-        callbackUrl: "/dashboard",
-      });
+      router.push("/verify-request");
     } catch (error) {
-      console.error(error);
+      console.error("Registration error:", error);
     } finally {
       setIsLoading(false);
     }
-  }
+  };
+
+  const handleOAuthSignIn = (provider: string) => {
+    signIn(provider, { callbackUrl });
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
       <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle>Create your account</CardTitle>
+        <CardHeader className="space-y-1">
+          <CardTitle className="text-2xl font-bold">Create an account</CardTitle>
           <CardDescription>
-            Get started with CloutNest today
+            Enter your details to get started
           </CardDescription>
         </CardHeader>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <Button
-                variant="outline"
-                type="button"
-                className="w-full"
-                onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
-              >
-                <Icons.google className="mr-2 h-4 w-4" />
-                Continue with Google
-              </Button>
+        <CardContent className="space-y-4">
+          {error && (
+            <div className="p-3 rounded bg-red-50 text-red-500 text-sm">
+              {error === "EmailExists" && "Email already registered"}
+              {error === "Default" && "An error occurred during registration"}
             </div>
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <span className="w-full border-t" />
-              </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-background px-2 text-muted-foreground">
-                  Or continue with
-                </span>
-              </div>
-            </div>
+          )}
+
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div className="space-y-2">
               <Input
                 {...register("name")}
@@ -111,8 +95,8 @@ export default function RegisterPage() {
             <div className="space-y-2">
               <Input
                 {...register("email")}
-                placeholder="Email"
                 type="email"
+                placeholder="Email"
                 disabled={isLoading}
               />
               {errors.email && (
@@ -122,8 +106,8 @@ export default function RegisterPage() {
             <div className="space-y-2">
               <Input
                 {...register("password")}
-                placeholder="Password"
                 type="password"
+                placeholder="Password"
                 disabled={isLoading}
               />
               {errors.password && (
@@ -140,30 +124,58 @@ export default function RegisterPage() {
                 <option value="COMPANY">Company</option>
               </select>
             </div>
-          </CardContent>
-          <CardFooter className="flex flex-col space-y-4">
-            <Button
-              type="submit"
-              className="w-full"
-              disabled={isLoading}
-            >
-              {isLoading && (
-                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-              )}
+            <Button type="submit" className="w-full" disabled={isLoading}>
+              {isLoading && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}
               Sign Up
             </Button>
-            <p className="text-sm text-center text-muted-foreground">
-              Already have an account?{" "}
-              <Button
-                variant="link"
-                className="p-0"
-                onClick={() => router.push("/login")}
-              >
-                Sign in
-              </Button>
-            </p>
-          </CardFooter>
-        </form>
+          </form>
+
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-background px-2 text-muted-foreground">
+                Or continue with
+              </span>
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Button
+              variant="outline"
+              className="w-full"
+              onClick={() => handleOAuthSignIn("google")}
+            >
+              <Icons.google className="mr-2 h-4 w-4" />
+              Continue with Google
+            </Button>
+            <Button
+              variant="outline"
+              className="w-full"
+              onClick={() => handleOAuthSignIn("github")}
+            >
+              <Icons.github className="mr-2 h-4 w-4" />
+              Continue with GitHub
+            </Button>
+            <Button
+              variant="outline"
+              className="w-full"
+              onClick={() => handleOAuthSignIn("discord")}
+            >
+              <Icons.discord className="mr-2 h-4 w-4" />
+              Continue with Discord
+            </Button>
+          </div>
+        </CardContent>
+        <CardFooter>
+          <div className="text-sm text-center w-full text-muted-foreground">
+            Already have an account?{" "}
+            <Link href="/login" className="text-primary hover:underline">
+              Sign in
+            </Link>
+          </div>
+        </CardFooter>
       </Card>
     </div>
   );

@@ -12,7 +12,7 @@ const inter = Inter({ subsets: ['latin'] });
 export const metadata: Metadata = {
   title: 'CloutNest - #1 Platform for Brands & Content Creators',
   description:
-    'CloutNest is the ultimate platform connecting brands with content creators to create impactful, ROI-driven social media campaigns. Join the revolution in influencer marketing.',
+    'CloutNest is the ultimate platform connecting brands with content creators to create impactful, ROI-driven social media campaigns. Discover opportunities to grow your brand or monetize your creativity on CloutNest.',
   keywords: [
     'CloutNest',
     'connect brands with influencers',
@@ -24,48 +24,37 @@ export const metadata: Metadata = {
     'creator platforms',
     'micro-influencers',
     'ROI-driven marketing',
+    'content marketing',
+    'brand influencer partnerships',
+    'top creator platform',
+    'CloutNest social campaigns',
   ].join(', '),
   openGraph: {
-    title: 'CloutNest - Connect Brands with Content Creators',
+    title: 'CloutNest - The Leading Creator & Brand Connection Platform',
     description:
-      'Discover CloutNest: the #1 platform connecting brands with content creators and influencers. Collaborate, create, and amplify your social media presence today.',
-    url: 'https://cloutnest.com',
-    siteName: 'CloutNest',
+      'CloutNest empowers brands and content creators to collaborate and launch successful campaigns. Join now and maximize your ROI.',
+    url: 'https://www.cloutnest.com',
+    type: 'website',
     images: [
       {
-        url: 'https://cloutnest.com/images/og-image.jpg',
+        url: 'https://www.cloutnest.com/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'CloutNest - Connect Brands with Content Creators',
+        alt: 'CloutNest - Connecting Brands and Creators',
       },
     ],
-    locale: 'en_US',
-    type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    site: '@cloutnest',
-    title: 'CloutNest - #1 Platform for Brands & Content Creators',
+    title: 'CloutNest - Brands & Creators Collaborate Seamlessly',
     description:
-      'Join CloutNest: the top influencer marketing platform for connecting brands with content creators. Create impactful campaigns that drive real results.',
-    images: ['https://cloutnest.com/images/og-image.jpg'],
-  },
-  icons: {
-    icon: '/favicon.ico',
-    apple: '/apple-touch-icon.png',
-  },
-  robots: {
-    index: true,
-    follow: true,
-    'max-snippet': -1,
-    'max-image-preview': 'large',
-    'max-video-preview': -1,
+      'Discover the #1 platform where brands meet influencers and creators. Create impactful campaigns and boost your marketing ROI.',
+    images: ['https://www.cloutnest.com/twitter-image.jpg'],
   },
   alternates: {
-    canonical: 'https://cloutnest.com',
+    canonical: 'https://www.cloutnest.com',
     languages: {
-      en: 'https://cloutnest.com/en',
-      es: 'https://cloutnest.com/es',
+      en: 'https://www.cloutnest.com/en',
     },
   },
 };
@@ -77,48 +66,21 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      {/* Advanced SEO Metadata */}
       <head>
-        {/* Core SEO Meta Tags */}
-        <meta
-          name="keywords"
-          content="CloutNest, connect brands with influencers, influencer marketing, social media campaigns, micro-influencers, ROI marketing, content creator platform, brand collaborations"
-        />
-        <meta
-          name="description"
-          content="CloutNest is the ultimate platform for connecting brands with influencers and content creators to craft impactful social media marketing campaigns."
-        />
+        <link rel="canonical" href="https://www.cloutnest.com" />
         <meta name="author" content="CloutNest Team" />
-        <meta name="theme-color" content="#4F46E5" />
-        <link rel="manifest" href="/site.webmanifest" />
-
-        {/* Schema.org Structured Data */}
-        <script type="application/ld+json">
-          {JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'WebSite',
-            name: 'CloutNest',
-            url: 'https://cloutnest.com',
-            description:
-              'CloutNest connects brands with content creators and influencers to create impactful, ROI-focused social media campaigns.',
-            publisher: {
-              '@type': 'Organization',
-              name: 'CloutNest',
-              logo: 'https://cloutnest.com/images/logo.png',
-            },
-            potentialAction: {
-              '@type': 'SearchAction',
-              target: 'https://cloutnest.com/?q={search_term_string}',
-              'query-input': 'required name=search_term_string',
-            },
-          })}
-        </script>
-
-        {/* Preloading Fonts */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" />
+        <meta property="og:title" content="CloutNest - The Leading Creator & Brand Connection Platform" />
+        <meta property="og:description" content="CloutNest empowers brands and content creators to collaborate and launch successful campaigns. Join now and maximize your ROI." />
+        <meta property="og:url" content="https://www.cloutnest.com" />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="https://www.cloutnest.com/og-image.jpg" />
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:title" content="CloutNest - Brands & Creators Collaborate Seamlessly" />
+        <meta property="twitter:description" content="Discover the #1 platform where brands meet influencers and creators. Create impactful campaigns and boost your marketing ROI." />
+        <meta property="twitter:image" content="https://www.cloutnest.com/twitter-image.jpg" />
       </head>
-      <body className={inter.className}>
+      <body className={`${inter.className} bg-gray-50 text-gray-900`}>
         <SessionProvider>
           <ThemeProvider
             attribute="class"

@@ -1,27 +1,40 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { getToken } from "next-auth/jwt";
 
 export async function middleware(request: NextRequest) {
-  const url = request.nextUrl;
+  const token = await getToken({ req: request });
+  const isAuthPage = request.nextUrl.pathname.startsWith("/login") || 
+                     request.nextUrl.pathname.startsWith("/register");
 
-  // Skip static files (e.g., images, CSS, JS, fonts) and API requests
-  if (
-    url.pathname.startsWith("/_next") || // Next.js internals
-    url.pathname.startsWith("/api") || // API routes
-    url.pathname.startsWith("/static") || // Static files
-    /\.(.*)$/.test(url.pathname) // Files with extensions (e.g., .png, .css)
-  ) {
+  if (isAuthPage) {
+    if (token) {
+      return NextResponse.redirect(new URL("/dashboard", request.url));
+    }
     return NextResponse.next();
   }
 
-  // Redirect all other requests to /construction
-  if (!url.pathname.startsWith("/construction")) {
-    return NextResponse.redirect(new URL("/construction", request.url));
+  if (!token && request.nextUrl.pathname.startsWith("/dashboard")) {
+    return NextResponse.redirect(new URL("/login", request.url));
+  }
+
+  // Handle onboarding redirection
+  if (token && request.nextUrl.pathname.startsWith("/dashboard")) {
+    const response = await fetch(`${request.nextUrl.origin}/api/profile`, {
+      headers: {
+        Cookie: request.headers.get("cookie") || "",
+      },
+    });
+    const profile = await response.json();
+
+    if (!profile?.onboardingComplete) {
+      return NextResponse.redirect(new URL("/onboarding", request.url));
+    }
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: "/:path*", // Match all paths
+  matcher: ["/dashboard/:path*", "/login", "/register", "/onboarding"],
 };

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import { prisma } from "@/lib/prisma";
+import { sendWelcomeEmail } from "@/lib/auth/email";
 
 export async function GET(req: Request) {
   try {
@@ -18,16 +19,18 @@ export async function GET(req: Request) {
       email: string;
     };
 
-    await prisma.user.update({
+    const user = await prisma.user.update({
       where: { email: decoded.email },
       data: { emailVerified: new Date() },
     });
 
+    await sendWelcomeEmail(user.email!, user.name!);
+
     return NextResponse.redirect(new URL("/login", req.url));
   } catch (error) {
-    console.error(error);
+    console.error("Email verification error:", error);
     return NextResponse.json(
-      { error: "Invalid token" },
+      { error: "Invalid or expired token" },
       { status: 400 }
     );
   }

@@ -15,45 +15,24 @@ async function main() {
       password: creatorPassword,
       role: 'CREATOR',
       emailVerified: new Date(),
-      profile: {
-        create: {
-          bio: 'Development creator account for testing',
-          location: 'San Francisco, CA',
-          categories: ['tech', 'lifestyle'],
-          languages: ['en'],
-          socialLinks: {
-            instagram: '@devcreator',
-            twitter: '@devcreator',
-            youtube: '@devcreator'
-          }
-        }
-      }
-    }
+    },
   });
 
-  // Create dev business account
-  const businessPassword = await bcrypt.hash('business123', 10);
-  const business = await prisma.user.upsert({
-    where: { email: 'business@dev.com' },
+  // Create dev company account
+  const companyPassword = await bcrypt.hash('company123', 10);
+  const company = await prisma.user.upsert({
+    where: { email: 'company@dev.com' },
     update: {},
     create: {
-      email: 'business@dev.com',
-      name: 'Dev Business',
-      password: businessPassword,
+      email: 'company@dev.com',
+      name: 'Dev Company',
+      password: companyPassword,
       role: 'COMPANY',
       emailVerified: new Date(),
-      profile: {
-        create: {
-          bio: 'Development business account for testing',
-          location: 'New York, NY',
-          website: 'https://devbusiness.com',
-          categories: ['tech', 'marketing']
-        }
-      }
-    }
+    },
   });
 
-  console.log({ creator, business });
+  console.log({ creator, company });
 }
 
 main()

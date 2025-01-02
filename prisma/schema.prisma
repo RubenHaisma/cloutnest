@@ -1,3 +1,4 @@
+// This is your Prisma schema file
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
@@ -12,6 +13,12 @@ enum UserRole {
   COMPANY
 }
 
+enum SubscriptionTier {
+  FREE
+  PRO
+  PREMIUM
+}
+
 model User {
   id            String    @id @default(cuid())
   name          String?
@@ -24,8 +31,22 @@ model User {
   accounts      Account[]
   sessions      Session[]
   profile       Profile?
+  subscription  Subscription?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
+
+  // Relations
+  createdCampaigns    Campaign[]        @relation("CreatedCampaigns")
+  appliedCampaigns    CampaignCreator[] @relation("CreatorApplications")
+  sentMessages        Message[]         @relation("SentMessages")
+  receivedMessages    Message[]         @relation("ReceivedMessages")
+  creatorConversations Conversation[]    @relation("CreatorConversations")
+  companyConversations Conversation[]    @relation("CompanyConversations")
+  marketplaceContent  MarketplaceContent[]
+  notifications       Notification[]
+  reviews            Review[]           @relation("ReceivedReviews")
+  givenReviews       Review[]           @relation("GivenReviews")
+  transactions       Transaction[]
 }
 
 model Account {
@@ -56,19 +77,199 @@ model Session {
 }
 
 model Profile {
-  id              String   @id @default(cuid())
-  userId          String   @unique
-  bio             String?  @db.Text
-  website         String?
-  location        String?
-  socialLinks     Json?
-  categories      String[]
-  languages       String[]
-  averageRate     Float?
-  totalEarnings   Float?   @default(0)
-  completedJobs   Int      @default(0)
-  verifiedSocials String[]
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                String   @id @default(cuid())
+  userId            String   @unique
+  bio               String?  @db.Text
+  website           String?
+  location          String?
+  socialLinks       Json?    // Store social media links and metrics
+  categories        String[] // Niches/categories
+  languages         String[]
+  averageRate       Float?
+  totalEarnings     Float?   @default(0)
+  completedJobs     Int      @default(0)
+  verifiedSocials   String[] // List of verified social platforms
+  onboardingComplete Boolean  @default(false)
+  preferences       Json?    // User preferences (notifications, etc.)
+  portfolioItems    Json?    // Array of portfolio work
+  availability      Boolean  @default(true)
+  minRate           Float?
+  maxRate           Float?
+  metrics           Json?    // Store engagement rates, reach, etc.
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Subscription {
+  id              String           @id @default(cuid())
+  userId          String           @unique
+  tier            SubscriptionTier @default(FREE)
+  stripeCustomerId String?         @unique
+  stripeSubscriptionId String?     @unique
+  currentPeriodStart DateTime
+  currentPeriodEnd DateTime
+  cancelAtPeriodEnd Boolean       @default(false)
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Campaign {
+  id           String   @id @default(cuid())
+  title        String
+  description  String   @db.Text
+  budget       Float
+  requirements Json     // Store minFollowers, platforms, niche
+  deliverables String[] // Required content deliverables
+  timeline     Int      // Duration in days
+  status       String   @default("DRAFT") // DRAFT, ACTIVE, COMPLETED
+  companyId    String
+  metrics      Json?    // Store campaign performance metrics
+  startDate    DateTime?
+  endDate      DateTime?
+  company      User     @relation("CreatedCampaigns", fields: [companyId], references: [id])
+  creators     CampaignCreator[]
+  milestones   Milestone[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([companyId])
+  @@index([status])
+}
+
+model CampaignCreator {
+  id         String   @id @default(cuid())
+  campaignId String
+  creatorId  String
+  status     String   @default("PENDING") // PENDING, ACCEPTED, REJECTED
+  proposal   String?  @db.Text
+  price      Float?
+  deliverables Json?  // Specific deliverables for this creator
+  metrics    Json?    // Performance metrics for this creator
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  campaign Campaign @relation(fields: [campaignId], references: [id])
+  creator  User     @relation("CreatorApplications", fields: [creatorId], references: [id])
+
+  @@unique([campaignId, creatorId])
+}
+
+model Milestone {
+  id          String   @id @default(cuid())
+  campaignId  String
+  title       String
+  description String?  @db.Text
+  dueDate     DateTime
+  status      String   @default("PENDING") // PENDING, COMPLETED
+  campaign    Campaign @relation(fields: [campaignId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([campaignId])
+}
+
+model Conversation {
+  id        String    @id @default(cuid())
+  creatorId String
+  companyId String
+  messages  Message[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  creator User @relation("CreatorConversations", fields: [creatorId], references: [id])
+  company User @relation("CompanyConversations", fields: [companyId], references: [id])
+
+  @@unique([creatorId, companyId])
+}
+
+model Message {
+  id             String       @id @default(cuid())
+  conversationId String
+  senderId       String
+  receiverId     String
+  content        String       @db.Text
+  read           Boolean      @default(false)
+  attachments    Json?       // Store file URLs and metadata
+  createdAt      DateTime     @default(now())
+
+  conversation   Conversation @relation(fields: [conversationId], references: [id])
+  sender         User         @relation("SentMessages", fields: [senderId], references: [id])
+  receiver       User         @relation("ReceivedMessages", fields: [receiverId], references: [id])
+
+  @@index([conversationId])
+  @@index([senderId])
+  @@index([receiverId])
+}
+
+model MarketplaceContent {
+  id          String   @id @default(cuid())
+  title       String
+  description String   @db.Text
+  type        String   // image, video, template
+  fileUrl     String
+  previewUrl  String
+  price       Float
+  categories  String[]
+  downloads   Int      @default(0)
+  rating      Float?
+  creatorId   String
+  creator     User     @relation(fields: [creatorId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([creatorId])
+  @@index([type])
+}
+
+model Review {
+  id          String   @id @default(cuid())
+  rating      Float
+  content     String   @db.Text
+  fromId      String
+  toId        String
+  campaignId  String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  from        User     @relation("GivenReviews", fields: [fromId], references: [id])
+  to          User     @relation("ReceivedReviews", fields: [toId], references: [id])
+
+  @@index([fromId])
+  @@index([toId])
+}
+
+model Transaction {
+  id          String   @id @default(cuid())
+  amount      Float
+  type        String   // PAYMENT, REFUND, WITHDRAWAL
+  status      String   // PENDING, COMPLETED, FAILED
+  userId      String
+  campaignId  String?
+  stripePaymentId String?
+  metadata    Json?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user        User     @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String
+  title     String
+  message   String
+  read      Boolean  @default(false)
+  data      Json?
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId])
 }
