@@ -30,11 +30,11 @@ export function AnalyticsPreview({ type }: AnalyticsPreviewProps) {
   ];
 
   const renderChart = () => {
-    const ChartComponent = {
+    const ChartComponent: React.ElementType = {
       line: LineChart,
       bar: BarChart,
       area: AreaChart,
-    }[chartType];
+    }[chartType] || LineChart;
 
     const primaryMetric = type === "creator" ? "earnings" : "reach";
     const secondaryMetric = type === "creator" ? "followers" : "spend";

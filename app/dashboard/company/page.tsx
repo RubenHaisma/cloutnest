@@ -11,7 +11,12 @@ import { CampaignList } from "@/components/dashboard/campaigns/campaign-list";
 import { formatCurrency, formatNumber } from "@/lib/utils";
 
 export default function CompanyDashboard() {
-  const { metrics, campaigns, isLoading, error } = useDashboardData();
+  const { metrics, campaigns: rawCampaigns, isLoading, error } = useDashboardData();
+
+  const campaigns = rawCampaigns.map((campaign) => ({
+    ...campaign,
+    requirements: campaign.requirements || { platforms: [], niche: [] },
+  }));
 
   if (error) {
     return (

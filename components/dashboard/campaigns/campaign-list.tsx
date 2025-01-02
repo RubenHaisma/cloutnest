@@ -5,19 +5,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatCurrency, formatDate } from "@/lib/utils";
+import { Campaign } from "@/lib/types/campaign";
 
-interface Campaign {
-  id: string;
-  title: string;
-  description: string;
-  budget: number;
-  status: string;
-  requirements: {
-    platforms: string[];
-    niche: string[];
-  };
-  createdAt: string;
-}
 
 interface CampaignListProps {
   campaigns: Campaign[];
@@ -81,7 +70,7 @@ export function CampaignList({ campaigns, isLoading }: CampaignListProps) {
                   >
                     {campaign.status.toLowerCase()}
                   </Badge>
-                  {campaign.requirements.platforms.map((platform) => (
+                  {campaign.requirements?.platforms.map((platform) => (
                     <Badge key={platform} variant="secondary">
                       {platform}
                     </Badge>

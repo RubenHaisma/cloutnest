@@ -138,8 +138,8 @@ export function UploadDialog({ open, onOpenChange }: UploadDialogProps) {
           <div className="space-y-2">
             <label className="text-sm font-medium">File</label>
             <Input type="file" {...register("file")} />
-            {errors.file && (
-              <p className="text-sm text-red-500">{errors.file.message}</p>
+            {errors.file?.message && (
+              <p className="text-sm text-red-500">{String(errors.file.message)}</p>
             )}
           </div>
 

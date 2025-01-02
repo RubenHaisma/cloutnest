@@ -123,7 +123,7 @@ export function CampaignsPreview({ type }: CampaignsPreviewProps) {
                   <CardTitle>{campaign.title}</CardTitle>
                   <div className="flex gap-2 mt-2">
                     <Badge variant="secondary">
-                      {type === "creator" ? campaign.company : `${campaign.creators} Creators`}
+                      {"company" in campaign ? campaign.company : `${campaign.creators} Creators`}
                     </Badge>
                     <Badge>{campaign.status}</Badge>
                   </div>

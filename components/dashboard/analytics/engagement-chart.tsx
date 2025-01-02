@@ -14,7 +14,7 @@ const timeRanges = [
 
 export function EngagementChart() {
   const [timeRange, setTimeRange] = useState('30d');
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<{ date: string; value: number }[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {

@@ -1,23 +1,11 @@
-"use client";
+// app/components/ConversationList.tsx
 
+import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { formatDistanceToNow } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
-
-interface Conversation {
-  id: string;
-  participant: {
-    id: string;
-    name: string;
-    image: string;
-  };
-  lastMessage: {
-    content: string;
-    createdAt: string;
-    read: boolean;
-  };
-}
+import { Conversation } from "@/lib/types/conversation";
 
 interface ConversationListProps {
   conversations: Conversation[];

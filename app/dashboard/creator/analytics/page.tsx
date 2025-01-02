@@ -1,16 +1,21 @@
+// filepath: /Users/rubenhaisma/Documents/GitHub/cloutnest/app/dashboard/creator/analytics/page.tsx
 "use client";
 
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BarChart, LineChart } from "@/components/ui/chart";
 import { getInstagramInsights } from "@/lib/api/social/instagram";
 import { getTikTokAnalytics } from "@/lib/api/social/tiktok";
 import { useSession } from "next-auth/react";
 
 export default function CreatorAnalyticsPage() {
   const { data: session } = useSession();
-  const [insights, setInsights] = useState({
+  interface Insights {
+    instagram: { followers_count: number } | null;
+    tiktok: { followers_count: number } | null;
+  }
+
+  const [insights, setInsights] = useState<Insights>({
     instagram: null,
     tiktok: null,
   });
@@ -20,8 +25,8 @@ export default function CreatorAnalyticsPage() {
       try {
         // Fetch insights for connected platforms
         const [igInsights, ttInsights] = await Promise.all([
-          getInstagramInsights(),
-          getTikTokAnalytics(),
+          getInstagramInsights(session?.accessToken || ""),
+          getTikTokAnalytics(session?.accessToken || ""),
         ]);
 
         setInsights({
@@ -33,8 +38,10 @@ export default function CreatorAnalyticsPage() {
       }
     };
 
-    fetchInsights();
-  }, []);
+    if (session?.accessToken) {
+      fetchInsights();
+    }
+  }, [session]);
 
   return (
     <div className="space-y-8">
@@ -75,10 +82,6 @@ export default function CreatorAnalyticsPage() {
               <CardTitle>Growth Over Time</CardTitle>
             </CardHeader>
             <CardContent className="pl-2">
-              <LineChart
-                data={[]}
-                // Add proper chart configuration
-              />
             </CardContent>
           </Card>
         </TabsContent>

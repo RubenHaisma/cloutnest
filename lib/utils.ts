@@ -36,3 +36,12 @@ export function formatTime(date: Date): string {
     minute: "numeric",
   }).format(date);
 }
+export function formatDateTime(date: Date): string {
+  return `${formatDate(date)} at ${formatTime(date)}`;
+}
+
+export function formatDistanceToNow(date: Date): string {
+  return new Intl.RelativeTimeFormat("en", {
+    numeric: "auto",
+  }).format(date.getTime() - Date.now(), "seconds");
+}

@@ -5,7 +5,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useSession } from "next-auth/react";
-import { Campaign } from "@prisma/client";
+import { Campaign as PrismaCampaign } from "@prisma/client";
+
+interface Campaign extends PrismaCampaign {
+  requirements: {
+    platforms: string[];
+  };
+}
 
 export default function CreatorOpportunitiesPage() {
   const { data: session } = useSession();

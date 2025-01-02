@@ -10,10 +10,11 @@ import { Input } from "@/components/ui/input";
 import { Search, Plus } from "lucide-react";
 import { CampaignList } from "@/components/dashboard/campaigns/campaign-list";
 import { CampaignFilters } from "@/components/dashboard/campaigns/campaign-filters";
+import { Campaign } from "@/lib/types/campaign";
 
 export default function CampaignsPage() {
   const router = useRouter();
-  const [campaigns, setCampaigns] = useState([]);
+  const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [filters, setFilters] = useState({
     status: "all",

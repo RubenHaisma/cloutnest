@@ -15,6 +15,9 @@ interface DashboardMetrics {
 }
 
 interface Campaign {
+  requirements: {
+    minFollowers: number; platforms: never[]; niche: never[]; 
+};
   id: string;
   title: string;
   description: string;

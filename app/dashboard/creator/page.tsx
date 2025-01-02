@@ -1,14 +1,13 @@
 "use client";
 
-import { useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { BarChart2, DollarSign, Users, TrendingUp } from "lucide-react";
 import Link from "next/link";
 import { useDashboardData } from "@/lib/hooks/use-dashboard-data";
 import { MetricsCard } from "@/components/dashboard/metrics-card";
-import { ActiveCampaignsList } from "@/components/dashboard/creator/active-campaigns-list";
+import ActiveCampaignsList from "@/components/dashboard/creator/active-campaigns-list";
 import { formatCurrency, formatNumber } from "@/lib/utils";
+import { Campaign } from "@/lib/types/campaign"; // Import the Campaign type
 
 export default function CreatorDashboard() {
   const { metrics, campaigns, isLoading, error } = useDashboardData();
@@ -20,6 +19,7 @@ export default function CreatorDashboard() {
       </div>
     );
   }
+
 
   const stats = [
     {
@@ -50,30 +50,22 @@ export default function CreatorDashboard() {
 
   return (
     <div className="space-y-8">
-      <div className="flex justify-between items-center">
-        <div>
-          <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
-          <p className="text-muted-foreground">
-            Track your performance and manage your collaborations
-          </p>
-        </div>
-        <Button asChild>
-          <Link href="/dashboard/creator/opportunities">
-            Find Opportunities
-          </Link>
-        </Button>
+      <div>
+        <h2 className="text-3xl font-bold tracking-tight">Analytics</h2>
+        <p className="text-muted-foreground">
+          Track your performance across platforms
+        </p>
       </div>
-
+      <Button asChild>
+        <Link href="/dashboard/creator/opportunities">
+          Find Opportunities
+        </Link>
+      </Button>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat) => (
-          <MetricsCard
-            key={stat.title}
-            {...stat}
-            isLoading={isLoading}
-          />
+          <MetricsCard key={stat.title} {...stat} isLoading={isLoading} />
         ))}
       </div>
-
       <ActiveCampaignsList campaigns={campaigns} isLoading={isLoading} />
     </div>
   );
