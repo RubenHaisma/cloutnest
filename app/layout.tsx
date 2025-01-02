@@ -10,52 +10,59 @@ import { SessionProvider } from '@/components/session-provider';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'CloutNest - #1 Platform for Brands & Content Creators',
+  title: 'CloutNest - The Ultimate Platform for Content Creators & Brands to Collaborate',
   description:
-    'CloutNest is the ultimate platform connecting brands with content creators to create impactful, ROI-driven social media campaigns. Discover opportunities to grow your brand or monetize your creativity on CloutNest.',
+    'CloutNest is the leading platform empowering artists, influencers, and businesses to connect and create powerful collaborations, boosting brand visibility, driving social media engagement, and maximizing ROI.',
   keywords: [
     'CloutNest',
-    'connect brands with influencers',
-    'content creators',
-    'influencer marketing',
-    'social media marketing',
-    'brand collaborations',
-    'influencer campaigns',
-    'creator platforms',
-    'micro-influencers',
-    'ROI-driven marketing',
-    'content marketing',
-    'brand influencer partnerships',
-    'top creator platform',
-    'CloutNest social campaigns',
+    'connect content creators with brands',
+    'influencer marketing platform',
+    'artist collaborations',
+    'business collaborations with creators',
+    'influencer partnerships',
+    'brand partnerships with influencers',
+    'content creators marketing',
+    'social media influencers',
+    'micro-influencers marketing',
+    'brand amplification through influencers',
+    'creator collaboration platform',
+    'artist marketing',
+    'music artist collaboration',
+    'brand sponsorship for influencers',
+    'creator tools for brands',
+    'high ROI influencer campaigns',
+    'artist promotion platform',
+    'business growth with influencers',
+    'creator-driven marketing',
+    'influencer campaign tools',
+    'artist and brand connection',
+    'collaborations for artists and businesses',
+    'boost your brand with creators',
+    'talent management for influencers',
+    'social media content creation for brands',
+    'digital marketing with influencers',
   ].join(', '),
   openGraph: {
-    title: 'CloutNest - The Leading Creator & Brand Connection Platform',
+    title: 'CloutNest - The Ultimate Platform for Content Creators & Brands to Collaborate',
     description:
-      'CloutNest empowers brands and content creators to collaborate and launch successful campaigns. Join now and maximize your ROI.',
+      'CloutNest is the leading platform empowering artists, influencers, and businesses to connect and create powerful collaborations, boosting brand visibility, driving social media engagement, and maximizing ROI.',
     url: 'https://www.cloutnest.com',
+    siteName: 'CloutNest',
     type: 'website',
     images: [
       {
-        url: 'https://www.cloutnest.com/og-image.jpg',
+        url: 'https://www.cloutnest.com/images/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'CloutNest - Connecting Brands and Creators',
+        alt: 'CloutNest Platform - Where Brands & Content Creators Meet',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'CloutNest - Brands & Creators Collaborate Seamlessly',
+    title: 'CloutNest - The Ultimate Platform for Content Creators & Brands to Collaborate',
     description:
-      'Discover the #1 platform where brands meet influencers and creators. Create impactful campaigns and boost your marketing ROI.',
-    images: ['https://www.cloutnest.com/twitter-image.jpg'],
-  },
-  alternates: {
-    canonical: 'https://www.cloutnest.com',
-    languages: {
-      en: 'https://www.cloutnest.com/en',
-    },
+      'CloutNest connects content creators and brands to create impactful, ROI-driven collaborations that amplify your brand’s reach and drive engagement.',
   },
 };
 
@@ -66,21 +73,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      {/* Advanced SEO Metadata */}
-      <head>
-        <link rel="canonical" href="https://www.cloutnest.com" />
-        <meta name="author" content="CloutNest Team" />
-        <meta property="og:title" content="CloutNest - The Leading Creator & Brand Connection Platform" />
-        <meta property="og:description" content="CloutNest empowers brands and content creators to collaborate and launch successful campaigns. Join now and maximize your ROI." />
-        <meta property="og:url" content="https://www.cloutnest.com" />
-        <meta property="og:type" content="website" />
-        <meta property="og:image" content="https://www.cloutnest.com/og-image.jpg" />
-        <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:title" content="CloutNest - Brands & Creators Collaborate Seamlessly" />
-        <meta property="twitter:description" content="Discover the #1 platform where brands meet influencers and creators. Create impactful campaigns and boost your marketing ROI." />
-        <meta property="twitter:image" content="https://www.cloutnest.com/twitter-image.jpg" />
-      </head>
-      <body className={`${inter.className} bg-gray-50 text-gray-900`}>
+      <body className={inter.className}>
         <SessionProvider>
           <ThemeProvider
             attribute="class"
